@@ -1,5 +1,0 @@
-size_video 540x960
-number_image 1
-dur_video 9000
-number_key_frame 270
-size_image_1 540x960
