@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentAdapter=new FragmentAdapter(getSupportFragmentManager());
             viewPager.setAdapter(fragmentAdapter);
 
-            tabLayout.setupWithViewPager(viewPager);
+            tabLayout.setupWithViewPager(viewPager)  ;
 
         }
 

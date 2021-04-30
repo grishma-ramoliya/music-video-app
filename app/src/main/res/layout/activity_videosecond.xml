@@ -40,6 +40,52 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_20sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:src="@drawable/ic_gallery"
+                    android:id="@+id/ivGallery"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtGallery"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:text="Please Select 1 Photo"
+                    android:textSize="@dimen/_14ssp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_20sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:src="@drawable/ic_music"
+                    android:id="@+id/ivMusic"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtMusic"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:text="Replace Music"
+                    android:textSize="@dimen/_14ssp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
