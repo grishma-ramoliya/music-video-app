@@ -20,8 +20,7 @@ public class VideoSecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_videosecond);
 
-        videoView=findViewById(R.id.Video_View);
-        backArrow=findViewById(R.id.backArrow);
+        initialize();
 
         videoView.setVideoPath("android.resource://"+getPackageName()+"/"+R.raw.video);
 
@@ -42,5 +41,10 @@ public class VideoSecondActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    private void initialize() {
+        videoView=findViewById(R.id.Video_View);
+        backArrow=findViewById(R.id.backArrow);
     }
 }
