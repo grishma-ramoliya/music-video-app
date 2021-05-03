@@ -8,37 +8,37 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicvideoapp.R;
-import com.example.musicvideoapp.items.Theme;
 import com.example.musicvideoapp.activity.VideoActivity;
+import com.example.musicvideoapp.items.Theme;
 
 import java.util.List;
 
-public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>{
+public class TrendingAdapter extends RecyclerView.Adapter<TrendingAdapter.ViewHolder> {
     private List<Theme> items;
     private Context context;
-
-    public ThemeAdapter( Context context) {
-
-        this.context = context;
+    public TrendingAdapter(Context context)
+    {
+        this.context=context;
+    }
+    public void setItems(List<Theme> items)
+    {
+        this.items=items;
     }
 
-    public void setItems(List<Theme> items) {
-
-        this.items = items;
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_grid,viewGroup,false);
+        return new TrendingAdapter.ViewHolder(view);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-      View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_grid,viewGroup,false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ThemeAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         Theme viewItem = items.get(position);
         viewHolder.imageView.setImageResource(viewItem.getImageId());
         viewHolder.textView.setText(viewItem.getName());
@@ -48,7 +48,7 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
                 Intent i = new Intent(context, VideoActivity.class);
                 context.startActivity(i);
             }
-        });
+       });
     }
 
     @Override
@@ -56,17 +56,16 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
         return items.size();
     }
 
-    protected class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
         private ImageView imageView;
         private TextView textView;
 
-        public ViewHolder(View view) {
+        public ViewHolder(@NonNull View view) {
             super(view);
             cardView=view.findViewById(R.id.card_view);
             textView = (TextView)view.findViewById(R.id.name);
             imageView = (ImageView) view.findViewById(R.id.image);
         }
     }
-
 }
