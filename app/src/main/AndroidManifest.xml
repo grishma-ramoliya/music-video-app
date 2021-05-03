@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicVideoApp">
-        <activity android:name=".activity.TrendingActivity"></activity>
+        <activity android:name=".activity.MostLikeActivity"></activity>
+        <activity android:name=".activity.TrendingActivity" />
         <activity android:name=".activity.VideoSecondActivity" />
         <activity android:name=".activity.VideoActivity" />
         <activity android:name=".activity.SplashActivity">
