@@ -20,6 +20,7 @@ import com.arthenica.mobileffmpeg.Config;
 import com.arthenica.mobileffmpeg.ExecuteCallback;
 import com.arthenica.mobileffmpeg.FFmpeg;
 import com.arthenica.mobileffmpeg.Statistics;
+import com.example.musicvideoapp.DialogUtil;
 import com.example.musicvideoapp.R;
 import com.example.musicvideoapp.Video;
 
@@ -277,7 +278,7 @@ public class VideoActivity extends AppCompatActivity {
 
             @Override
             public Object call() {
-        //        progressDialog = DialogUtil.createProgressDialog(VideoActivity.this, "Encoding video");
+                progressDialog = DialogUtil.createProgressDialog(VideoActivity.this, "Encoding video");
                 return null;
             }
         });
