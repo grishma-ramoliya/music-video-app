@@ -15,12 +15,16 @@ import com.example.musicvideoapp.items.Theme;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MainActivity extends AppCompatActivity {
 
         private FragmentAdapter fragmentAdapter;
         private ViewPager viewPager;
         private TabLayout tabLayout;
+        protected static final Queue<Callable<Object>> actionQueue = new ConcurrentLinkedQueue<>();
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -33,7 +37,11 @@ public class MainActivity extends AppCompatActivity {
             tabLayout.setupWithViewPager(viewPager)  ;
 
         }
-
+    //region FOR ADD UI ACTION CALL FOR ENCODING
+    public static void addUIAction(final Callable<Object> callable) {
+        actionQueue.add(callable);
+    }
+    //endregion
     private void initialize() {
         tabLayout=findViewById(R.id.tabLayout);
         viewPager=findViewById(R.id.viewPager);
