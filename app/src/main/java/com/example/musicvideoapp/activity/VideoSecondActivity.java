@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
 import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
+import static com.example.musicvideoapp.items.Constant.RESULT_LOAD_AUDIO;
 import static com.example.musicvideoapp.items.Constant.RESULT_LOAD_IMAGE;
 
 public class VideoSecondActivity extends AppCompatActivity implements View.OnClickListener {
@@ -65,6 +66,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         initialize();
 
         llAddImage.setOnClickListener(this);
+        llAddMusic.setOnClickListener(this);
         videoView.setVideoPath("android.resource://"+getPackageName()+"/"+R.raw.video);
 
         MediaController mediaController=new MediaController(this);
@@ -310,11 +312,18 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.llAddImage:
-                Intent i = new Intent(
+                Intent intentVideo = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                startActivityForResult(intentVideo, RESULT_LOAD_IMAGE);
                 break;
+            case R.id.llAddMusic:
+                Intent intentAudio = new Intent();
+                intentAudio.setType("audio/*");
+                intentAudio.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intentAudio, RESULT_LOAD_AUDIO);
+                break;
+
         }
     }
     //endregion
