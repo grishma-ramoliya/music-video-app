@@ -145,7 +145,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         }
         showProgressDialog();
 
-        String ffmpegCommand = Video.generateAddAudioInVideo(videoFile.getAbsolutePath(),audioPath,audioWithVideoPath.getAbsolutePath());
+        String ffmpegCommand = Video.generateAddAudioInVideo(imageWithVideoPath.getAbsolutePath(),audioPath,audioWithVideoPath.getAbsolutePath());
         Log.d(TAG, String.format("FFmpeg process started with arguments\n'%s'.", ffmpegCommand));
 
         long executionId = FFmpeg.executeAsync(ffmpegCommand, new ExecuteCallback() {
@@ -323,11 +323,9 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                 intentAudio.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intentAudio, RESULT_LOAD_AUDIO);
                 break;
-
         }
     }
     //endregion
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -342,6 +340,21 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                 e.printStackTrace();
             }
         }
+        else if (requestCode==RESULT_LOAD_AUDIO && resultCode==RESULT_OK && null != data){
+            if(data.getData()!=null){
+                Uri uri=data.getData();
+                String path=GetPathFromUri.getPathFromUri(VideoSecondActivity.this,uri);
+                if (path!=null){
+                    audioPath=path;
+                }
+                try {
+                    encodedVideoWithAudio();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
+
 }
