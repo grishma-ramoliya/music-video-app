@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MusicVideoApp</string>
+    <string name="download">Download</string>
+    <string name="replace_music">Replace Music</string>
 
     <string-array name="video_codec">
         <item>mpeg4</item>

@@ -9,6 +9,12 @@ import java.util.Locale;
  */
 public class Video {
 
+    public  static String generateAddImageOnVideo(String videoPath,String imagePath,String destinationVideoPath){
+        return "-i "+videoPath+" -i "+imagePath+" " +
+                "-filter_complex \"[0:v][1:v] overlay=50:50:enable='between(t,0,20)'\" " +
+                "-pix_fmt yuv420p -c:a copy "
+                +destinationVideoPath;
+    }
     public static String generateAddFrameInVideo(String videoPath,String framePath,String destinationAbsolutePath)
     {
         return "-y -i "+videoPath+" -i "+framePath+" -filter_complex \""+
