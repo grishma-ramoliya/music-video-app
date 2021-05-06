@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -32,7 +33,11 @@ import com.example.musicvideoapp.R;
 import com.example.musicvideoapp.Video;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
@@ -52,7 +57,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
     private VideoView videoView;
     private ImageView backArrow;
     private String[] projection = {MediaStore.MediaColumns.DATA};
-    private Button btnStart;
+    private Button btnDownload;
     private AlertDialog progressDialog;
     private Statistics statistics;
     private String path;
@@ -67,6 +72,8 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
 
         llAddImage.setOnClickListener(this);
         llAddMusic.setOnClickListener(this);
+        btnDownload.setOnClickListener(this);
+
         videoView.setVideoPath("android.resource://"+getPackageName()+"/"+R.raw.video);
 
         MediaController mediaController=new MediaController(this);
@@ -93,6 +100,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         backArrow=findViewById(R.id.backArrow);
         llAddImage=findViewById(R.id.llAddImage);
         llAddMusic=findViewById(R.id.llAddMusic);
+        btnDownload=findViewById(R.id.btnDownload);
         progressDialog = DialogUtil.createProgressDialog(this, "Encoding video");
 
     }
@@ -168,6 +176,74 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         });
         Log.d(TAG, String.format("Async FFmpeg process started with executionId %d.", executionId));
     }
+    //endregion
+
+    //region Download Video
+    private void downloadVideo(File downloadFile) {
+        progressBar = new ProgressDialog(this);
+        progressBar.setCancelable(true);
+        progressBar.setMessage("File downloading ...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressBar.setProgress(0);
+        File newFile;
+        try {
+            File filePath = new File(downloadFile.getAbsolutePath());
+            String fileName = "MusicVideoApp_" + System.currentTimeMillis() + ".mp4";
+            File myDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "VideoMaker");
+            if(!myDirectory.exists()) {
+                myDirectory.mkdirs();
+            }
+            newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES+"/VideoMaker"), fileName);
+//            newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)+"/VideoMaker", fileName);
+            if (downloadFile.exists()){
+                InputStream inputStream=new FileInputStream(filePath);
+                OutputStream outputStream=new FileOutputStream(newFile);
+                // Copy the bits from instream to outstream
+                byte[] buf = new byte[1024];
+                int len;
+                int i=0;
+                while ((len=inputStream.read(buf))>0){
+                    Log.e("LEN",String.valueOf(len));
+                    progressBar.setMax(len);
+                    progressBar.show();
+                    progressBar.setProgress(i++);
+                    outputStream.write(buf,0,len);
+                }
+                progressBar.dismiss();
+                inputStream.close();
+                outputStream.close();
+                MediaScannerConnection.scanFile(VideoSecondActivity.this,
+                        new String[] { newFile.getAbsolutePath() }, null,
+                        new MediaScannerConnection.OnScanCompletedListener() {
+                            public void onScanCompleted(String path, Uri uri) {
+                                Log.i("ExternalStorage", "Scanned " + path + ":");
+                                Log.i("ExternalStorage", "-> uri=" + uri);
+                            }
+                        });
+                refreshGallery(newFile);
+                Log.v("VideoMaker", "Video file saved successfully.");
+            }
+            else {
+                Log.e("VideoMaker Error", "Video saving failed. Source file missing.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //endregion
+
+    //region Refresh Gallery
+    private void refreshGallery(File newFile) {
+        MediaScannerConnection.scanFile(VideoSecondActivity.this,
+                new String[] { newFile.getAbsolutePath() }, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.i("ExternalStorage", "Scanned " + path + ":");
+                        Log.i("ExternalStorage", "-> uri=" + uri);
+                    }
+                });
+    }
+
     //endregion
 
     private File getVideoFile() {
@@ -322,6 +398,28 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                 intentAudio.setType("audio/*");
                 intentAudio.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intentAudio, RESULT_LOAD_AUDIO);
+                break;
+            case R.id.btnDownload:
+                if(VIDEO_DOWNLOAD > 0)
+                {
+                    if (VIDEO_DOWNLOAD==1) {
+                        if (videoFile.exists()){
+                            downloadVideo(videoFile);
+                            Toast.makeText(this, "Images to Video Downloaded", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(this, "Fail to download", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else if (VIDEO_DOWNLOAD==2) {
+                        if (audioWithVideoPath.exists()){
+                            downloadVideo(audioWithVideoPath);
+                            Toast.makeText(this, "Video with Audio Downloaded", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(this, "Fail to download", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
                 break;
         }
     }
