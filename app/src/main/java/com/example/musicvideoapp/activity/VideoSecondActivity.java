@@ -189,12 +189,11 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         try {
             File filePath = new File(downloadFile.getAbsolutePath());
             String fileName = "MusicVideoApp_" + System.currentTimeMillis() + ".mp4";
-            File myDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "VideoMaker");
+            File myDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "MusicVideoApp");
             if(!myDirectory.exists()) {
                 myDirectory.mkdirs();
             }
-            newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES+"/VideoMaker"), fileName);
-//            newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)+"/VideoMaker", fileName);
+            newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES+"/MusicVideoApp"), fileName);
             if (downloadFile.exists()){
                 InputStream inputStream=new FileInputStream(filePath);
                 OutputStream outputStream=new FileOutputStream(newFile);
@@ -221,10 +220,10 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                             }
                         });
                 refreshGallery(newFile);
-                Log.v("VideoMaker", "Video file saved successfully.");
+                Log.v("MusicVideoApp", "Video file saved successfully.");
             }
             else {
-                Log.e("VideoMaker Error", "Video saving failed. Source file missing.");
+                Log.e("MusicVideoApp Error", "Video saving failed. Source file missing.");
             }
         } catch (IOException e) {
             e.printStackTrace();
