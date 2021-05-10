@@ -107,7 +107,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
 
     //region Encoded Video
     private void encodedVideo() throws IOException {
-        imageWithVideoPath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/FrameWithVideo.mp4");
+        imageWithVideoPath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/ImageWithVideo.mp4");
         if (imageWithVideoPath.exists()) {
             imageWithVideoPath.delete();
         }
