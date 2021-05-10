@@ -15,13 +15,6 @@ public class Video {
                 "-pix_fmt yuv420p -c:a copy "
                 +destinationVideoPath;
     }
-    public static String generateAddFrameInVideo(String videoPath,String framePath,String destinationAbsolutePath)
-    {
-        return "-y -i "+videoPath+" -i "+framePath+" -filter_complex \""+
-                "[1]scale=640:427[b];[0][b] overlay=0:0:enable='between(t,0,20)'\" "+
-                "-pix_fmt yuv420p -c:a copy " +
-                destinationAbsolutePath;
-    }
     public static String generateAddAudioInVideo(String videoFileAbsolutePath,String audioFileAbsolutePath,String destinationAbsolutePath){
         return "-i "+videoFileAbsolutePath+" -i \""+audioFileAbsolutePath+ "\" -c:v copy -c:a aac -strict experimental -shortest "+ destinationAbsolutePath;
     }
