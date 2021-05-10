@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         if (sd.canWrite()) {
             final File backupDBFolder = new File(sd.getPath());
             try {
-                unzip("/assets/Theme_64.zip",backupDBFolder.getPath());
+                unzip("/Theme_64.zip",backupDBFolder.getPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
