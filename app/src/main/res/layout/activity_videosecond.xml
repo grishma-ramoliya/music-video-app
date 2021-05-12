@@ -98,7 +98,7 @@
                 android:id="@+id/btnDownload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/yellow"
+                android:background="@drawable/btn_bkg"
                 android:text="@string/download"
                 android:textAllCaps="false"
                 android:textSize="@dimen/_20ssp"/>

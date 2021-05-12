@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.musicvideoapp.adapter.FragmentAdapter;
 import com.example.musicvideoapp.adapter.ThemeAdapter;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         private FragmentAdapter fragmentAdapter;
         private ViewPager viewPager;
         private TabLayout tabLayout;
+        private ImageView ivHome,ivMyVideo,ivFavourite,ivSetting;
         protected static final Queue<Callable<Object>> actionQueue = new ConcurrentLinkedQueue<>();
     @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
 
             tabLayout.setupWithViewPager(viewPager)  ;
 
+            ivHome.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentHome = new Intent(MainActivity.this,MainActivity.class);
+                    startActivity(intentHome);
+                }
+            });
 // call the unzip folder
         File sd = Environment.getExternalStorageDirectory();
         if (sd.canWrite()) {
@@ -54,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     //region FOR ADD UI ACTION CALL FOR ENCODING
     public static void addUIAction(final Callable<Object> callable) {
         actionQueue.add(callable);
@@ -62,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
     private void initialize() {
         tabLayout=findViewById(R.id.tabLayout);
         viewPager=findViewById(R.id.viewPager);
+        ivHome=findViewById(R.id.ivHome);
+        ivMyVideo=findViewById(R.id.ivMyVideo);
+        ivFavourite=findViewById(R.id.ivFavourite);
+        ivSetting=findViewById(R.id.ivSetting);
     }
 
 
