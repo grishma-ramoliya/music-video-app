@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicVideoApp">
-        <activity android:name=".activity.FavouriteActivity"></activity>
+        <activity android:name=".activity.PreviewShareActivity"></activity>
+        <activity android:name=".activity.FavouriteActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.MyVideoActivity" />
         <activity android:name=".activity.MostLikeActivity" />

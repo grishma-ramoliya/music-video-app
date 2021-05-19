@@ -221,10 +221,15 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                         });
                 refreshGallery(newFile);
                 Log.v("MusicVideoApp", "Video file saved successfully.");
+
+                Intent previewIntent = new Intent(this,PreviewShareActivity.class);
+                previewIntent.putExtra("Path",path);
+                startActivity(previewIntent);
             }
             else {
                 Log.e("MusicVideoApp Error", "Video saving failed. Source file missing.");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
