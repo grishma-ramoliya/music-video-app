@@ -2,11 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.musicvideoapp">
+
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,7 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicVideoApp">
-        <activity android:name=".activity.MostLikeActivity"></activity>
+        <activity android:name=".activity.FavouriteActivity"></activity>
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.MyVideoActivity" />
+        <activity android:name=".activity.MostLikeActivity" />
         <activity android:name=".activity.TrendingActivity" />
         <activity android:name=".activity.VideoSecondActivity" />
         <activity android:name=".activity.VideoActivity" />
