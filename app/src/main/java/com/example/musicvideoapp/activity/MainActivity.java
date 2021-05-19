@@ -7,11 +7,13 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.musicvideoapp.Decompress;
 import com.example.musicvideoapp.adapter.FragmentAdapter;
 import com.example.musicvideoapp.adapter.ThemeAdapter;
 import com.example.musicvideoapp.R;
@@ -20,13 +22,11 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import static com.example.musicvideoapp.DialogUtil.unzip;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
             initialize();
 
+            Decompress decompress=new Decompress("/storage/emulated/0/Download/Theme_64.zip","/storage/emulated/0/Download/");
+            decompress.unzip();
+
             fragmentAdapter=new FragmentAdapter(getSupportFragmentManager());
             viewPager.setAdapter(fragmentAdapter);
 
@@ -54,15 +57,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 // call the unzip folder
-        File sd = Environment.getExternalStorageDirectory();
-        if (sd.canWrite()) {
-            final File backupDBFolder = new File(sd.getPath());
-            try {
-                unzip("/Theme_64.zip",backupDBFolder.getPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        File sd = Environment.getExternalStorageDirectory();
+//        if (sd.canWrite()) {
+//            final File backupDBFolder = new File(sd.getPath());
+//            try {
+//                unzip("/Theme_64.zip",backupDBFolder.getPath());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
     }
 
@@ -79,8 +82,5 @@ public class MainActivity extends AppCompatActivity {
         ivFavourite=findViewById(R.id.ivFavourite);
         ivSetting=findViewById(R.id.ivSetting);
     }
-
-
-
 
 }
