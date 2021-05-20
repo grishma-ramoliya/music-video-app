@@ -31,6 +31,7 @@ import com.example.musicvideoapp.DialogUtil;
 import com.example.musicvideoapp.GetPathFromUri;
 import com.example.musicvideoapp.R;
 import com.example.musicvideoapp.Video;
+import com.example.musicvideoapp.items.Constant;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +41,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
 import static com.example.musicvideoapp.items.Constant.RESULT_LOAD_AUDIO;
@@ -223,7 +226,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                 Log.v("MusicVideoApp", "Video file saved successfully.");
 
                 Intent previewIntent = new Intent(this,PreviewShareActivity.class);
-                previewIntent.putExtra("Path",path);
+                previewIntent.putExtra(Constant.DOWNLOAD_VIDEO_FILE_PATH,newFile.getAbsolutePath());
                 startActivity(previewIntent);
             }
             else {
@@ -458,5 +461,6 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
+
 
 }
