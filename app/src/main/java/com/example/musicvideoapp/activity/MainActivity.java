@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
 //            unzip("/storage/emulated/0/Download/Theme_64.zip","/storage/emulated/0/Download/");
             fragmentAdapter=new FragmentAdapter(getSupportFragmentManager());
             viewPager.setAdapter(fragmentAdapter);
-
             tabLayout.setupWithViewPager(viewPager)  ;
 
             ivHome.setOnClickListener(new View.OnClickListener() {
@@ -107,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
     }
     //endregion
     private void initialize() {
-        tabLayout=findViewById(R.id.tabLayout);
-        viewPager=findViewById(R.id.viewPager);
+        tabLayout=findViewById(R.id.tab_layout);
+        viewPager=findViewById(R.id.view_pager);
         ivHome=findViewById(R.id.ivHome);
         ivMyVideo=findViewById(R.id.ivMyVideo);
         ivFavourite=findViewById(R.id.ivFavourite);

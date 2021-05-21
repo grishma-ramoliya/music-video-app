@@ -14,18 +14,18 @@
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tabLayout"/>
+            android:id="@+id/tab_layout"/>
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/viewPager"
-        android:layout_below="@+id/tabLayout">
+        android:id="@+id/view_pager"
+        android:layout_below="@+id/tab_layout">
     </androidx.viewpager.widget.ViewPager>
 
     <include layout="@layout/bottombar"
-        android:layout_above="@+id/viewPager"
+        android:layout_above="@+id/view_pager"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>
