@@ -437,7 +437,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri uri = data.getData();
-            path = GetPathFromUri.getPathFromUri(VideoSecondActivity.this, uri);
+            String path = GetPathFromUri.getPathFromUri(VideoSecondActivity.this, uri);
             Log.e("Image Path",path);
             try {
                 encodedVideo();

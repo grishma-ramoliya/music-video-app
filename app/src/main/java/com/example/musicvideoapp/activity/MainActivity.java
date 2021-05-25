@@ -41,6 +41,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import static com.example.musicvideoapp.DialogUtil.unzip;
+
 public class MainActivity extends AppCompatActivity {
 
     //how to get images from the device programmatically in android
@@ -62,15 +64,15 @@ public class MainActivity extends AppCompatActivity {
             if(isStoragePermissionGranted()){
             initialize();
             }
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("*/*");
-                    Intent i = Intent.createChooser(intent, "File");
-                    startActivityForResult(i, SELECT_ZIP);
-                }
-            });
+//            button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.setType("*/*");
+//                    Intent i = Intent.createChooser(intent, "File");
+//                    startActivityForResult(i, SELECT_ZIP);
+//                }
+//            });
 
 //            Decompress decompress=new Decompress("/storage/emulated/0/Download/Theme_64.zip","/storage/emulated/0/Download/");
 //            decompress.unzip();
@@ -88,15 +90,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 // call the unzip folder
-//        File sd = Environment.getExternalStorageDirectory();
-//        if (sd.canWrite()) {
-//            final File backupDBFolder = new File(sd.getPath());
-//            try {
-//                unzip("/Theme_64.zip",backupDBFolder.getPath());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        File sd = Environment.getExternalStorageDirectory();
+            final File backupDBFolder = new File(sd.getPath());
+        try {
+            String uri = Uri.fromFile(new File("//assets/Theme_64 .zip")).getPath();
+            unzip(uri,backupDBFolder.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -115,56 +116,54 @@ public class MainActivity extends AppCompatActivity {
         button=findViewById(R.id.btnGetFile);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==SELECT_ZIP){
-            Uri uri=data.getData();
-            String path= GetPathFromUri.getPathFromUri(MainActivity.this,uri);
-            unzip(path,"/storage/emulated/0/Download/");
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode==SELECT_ZIP){
+//            Uri uri=data.getData();
+//            String path= GetPathFromUri.getPathFromUri(MainActivity.this,uri);
+//            unzip(path,"/storage/emulated/0/Download/");
+//        }
+//    }
 
-    public void unzip(String _zipFile, String _targetLocation) {
-
-        //create target location folder if not exist
-        dirChecker(_targetLocation,"");
-
-        try {
-            FileInputStream fin = new FileInputStream(_zipFile);
-            ZipInputStream zin = new ZipInputStream(fin);
-            ZipEntry ze = null;
-            while ((ze = zin.getNextEntry()) != null) {
-
-                //create dir if required while unzipping
-                if (ze.isDirectory()) {
-                    dirChecker(ze.getName(),"XYZ");
-                } else {
-                    FileOutputStream fout = new FileOutputStream(_targetLocation + ze.getName());
-                    for (int c = zin.read(); c != -1; c = zin.read()) {
-                        fout.write(c);
-                    }
-
-                    zin.closeEntry();
-                    fout.close();
-                }
-
-            }
-            zin.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-    private static void dirChecker(String destination, String dir) {
-        File f = new File(destination, dir);
-
-        if (!f.isDirectory()) {
-            boolean success = f.mkdirs();
-            if (!success) {
-                Log.e("Fail to create folder", "Failed to create folder " + f.getName());
-            }
-        }
-    }
+//    public void unzip(String _zipFile, String _targetLocation) {
+//        //create target location folder if not exist
+//        dirChecker(_targetLocation,"");
+//
+//        try {
+//            FileInputStream fin = new FileInputStream(_zipFile);
+//            ZipInputStream zin = new ZipInputStream(fin);
+//            ZipEntry ze = null;
+//            while ((ze = zin.getNextEntry()) != null) {
+//
+//                //create dir if required while unzipping
+//                if (ze.isDirectory()) {
+//                    dirChecker(ze.getName(),"XYZ");
+//                  } else {
+//                    FileOutputStream fout = new FileOutputStream(_targetLocation + ze.getName());
+//                    for (int c = zin.read(); c != -1; c = zin.read()) {
+//                        fout.write(c);
+//                    }
+//                    zin.closeEntry();
+//                    fout.close();
+//                }
+//
+//            }
+//            zin.close();
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//    }
+//    private static void dirChecker(String destination, String dir) {
+//        File f = new File(destination, dir);
+//
+//        if (!f.isDirectory()) {
+//            boolean success = f.mkdirs();
+//            if (!success) {
+//                Log.e("Fail to create folder", "Failed to create folder " + f.getName());
+//            }
+//        }
+//    }
 
     //region FOR GET STORAGE PERMISSION
     public boolean isStoragePermissionGranted() {

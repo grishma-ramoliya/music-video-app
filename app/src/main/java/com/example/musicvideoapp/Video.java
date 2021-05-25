@@ -16,7 +16,7 @@ public class Video {
                 +destinationVideoPath;
     }
     public static String generateAddAudioInVideo(String videoFileAbsolutePath,String audioFileAbsolutePath,String destinationAbsolutePath){
-        return "-i "+videoFileAbsolutePath+" -i \""+audioFileAbsolutePath+ "\" -c:v copy -c:a aac -strict experimental -shortest "+ destinationAbsolutePath;
+        return "-i "+videoFileAbsolutePath+" -i \""+audioFileAbsolutePath+ "\" -c:v copy -map 0:v:0 -map 1:a:0 -strict experimental -shortest "+ destinationAbsolutePath;
     }
     public static String generateCreateVideoWithPipesScript(final String image1Pipe, final String image2Pipe, final String image3Pipe, final String videoFilePath) {
         return
