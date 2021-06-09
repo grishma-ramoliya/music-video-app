@@ -9,12 +9,24 @@ import java.util.Locale;
  */
 public class Video {
 
+//    public  static String generateImagesToVideo(String destinationImage){
+//        return "-r 30 -f image2 -start_number d100 -i /storage/emulated/0/Download/abhi/theme64/data/IMG_%03d.jpg -vf scale=533:-1 -codec:v prores-profile:v 2 "+destinationImage;
+////        return " -i "+mainImage+" -i "+overlayImage+" -filter_complex \"[1]scale=iw/2:-1[b];[0:v][b] overlay\" "+destinationImage;
+//    }
+
+
+    public  static String generateImageOnImage(String mainImage,String overlayImage,String destinationImage){
+        return " -i "+mainImage+" -i "+overlayImage+" -filter_complex \"[1]scale=100/50:-1[b];[0:v][b] overlay\" "+destinationImage;
+//        return " -i "+mainImage+" -i "+overlayImage+" -filter_complex \"[1]scale=iw/2:-1[b];[0:v][b] overlay\" "+destinationImage;
+    }
+
     public  static String generateAddImageOnVideo(String videoPath,String imagePath,String destinationVideoPath){
         return "-i "+videoPath+" -i "+imagePath+" " +
                 "-filter_complex \"[0:v][1:v] overlay=50:50:enable='between(t,0,20)'\" " +
                 "-pix_fmt yuv420p -c:a copy "
                 +destinationVideoPath;
     }
+
     public static String generateAddAudioInVideo(String videoFileAbsolutePath,String audioFileAbsolutePath,String destinationAbsolutePath){
         return "-i "+videoFileAbsolutePath+" -i \""+audioFileAbsolutePath+ "\" -c:v copy -map 0:v:0 -map 1:a:0 -strict experimental -shortest "+ destinationAbsolutePath;
     }

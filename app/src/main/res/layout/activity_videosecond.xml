@@ -15,16 +15,22 @@
         android:layout_width="match_parent"/>
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:id="@+id/frameLayout">
-        <VideoView
-            android:id="@+id/Video_View"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_50sdp" />
+        android:layout_alignParentEnd="true">
+        <!--    <VideoView-->
+        <!--        android:id="@+id/Video_View"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="@dimen/_300sdp"-->
+        <!--        android:layout_marginTop="@dimen/_50sdp"-->
+        <!--        android:visibility="gone"/>-->
 
+        <ImageView
+            android:id="@+id/ivImages"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_300sdp" />
     </FrameLayout>
 
     <LinearLayout

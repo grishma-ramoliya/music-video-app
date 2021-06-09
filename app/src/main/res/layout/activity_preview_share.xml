@@ -21,8 +21,7 @@
         <VideoView
             android:id="@+id/Video_Preview"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_300sdp"
-            android:layout_marginTop="@dimen/_50sdp" />
+            android:layout_height="@dimen/_300sdp" />
     </FrameLayout>
 
     <androidx.cardview.widget.CardView

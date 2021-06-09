@@ -8,10 +8,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -27,6 +30,7 @@ import com.arthenica.mobileffmpeg.Config;
 import com.arthenica.mobileffmpeg.ExecuteCallback;
 import com.arthenica.mobileffmpeg.FFmpeg;
 import com.arthenica.mobileffmpeg.Statistics;
+import com.bumptech.glide.Glide;
 import com.example.musicvideoapp.DialogUtil;
 import com.example.musicvideoapp.GetPathFromUri;
 import com.example.musicvideoapp.R;
@@ -55,10 +59,12 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
     private static int VIDEO_DOWNLOAD=0;
     private File videoFile;
     private File imageWithVideoPath;
+    private File imageWithImagePath;
     private File audioWithVideoPath;
+    private File imagesToVideoPath;
     private String audioPath;
     private VideoView videoView;
-    private ImageView backArrow;
+    private ImageView backArrow,ivImages;
     private String[] projection = {MediaStore.MediaColumns.DATA};
     private Button btnDownload;
     private AlertDialog progressDialog;
@@ -73,21 +79,39 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
 
         initialize();
 
+        Glide.with(this).load("/storage/emulated/0/Download/abhi/theme64/data/d1.jpg").into(ivImages);
+        int[] i = new int[270];
+        for (int j=1;j<270;j++){
+            i[j]=j;
+        }
+
+        VideoSecondActivity.AsyncTaskExample asyncTask=new VideoSecondActivity.AsyncTaskExample();
+        asyncTask.execute("/storage/emulated/0/Download/abhi/theme64/data/sound.aac");
+        new CountDownTimer(500,1777){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                Glide.with(VideoSecondActivity.this).load("/storage/emulated/0/Download/abhi/theme64/data/d"+ i[0] +".jpg").into(ivImages);
+                int j=i[0]++;
+                if (j==270){
+                    i[0] =0;}
+                start();
+            }
+        }.start();
+
+//        try {
+//            encodedImagesToVideo();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
         llAddImage.setOnClickListener(this);
         llAddMusic.setOnClickListener(this);
         btnDownload.setOnClickListener(this);
-
-        videoView.setVideoPath("android.resource://"+getPackageName()+"/"+R.raw.video);
-
-        MediaController mediaController=new MediaController(this);
-        mediaController.setAnchorView(videoView);
-        videoView.setMediaController(mediaController);
-        videoView.start();
-
-        MediaPlayer music = MediaPlayer.create(VideoSecondActivity.this,R.raw.audio);
-        music.start();
-
-
 
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,11 +125,39 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
     private void initialize() {
         videoView=findViewById(R.id.Video_View);
         backArrow=findViewById(R.id.backArrow);
+        ivImages=findViewById(R.id.ivImages);
         llAddImage=findViewById(R.id.llAddImage);
         llAddMusic=findViewById(R.id.llAddMusic);
         btnDownload=findViewById(R.id.btnDownload);
         progressDialog = DialogUtil.createProgressDialog(this, "Encoding video");
 
+    }
+
+    private class AsyncTaskExample extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            MediaPlayer music =new  MediaPlayer();
+            try {
+                music.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                music.setDataSource(getApplicationContext(),Uri.parse(strings[0]));
+                music.prepare();
+                music.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 
     //region Encoded Video
@@ -136,6 +188,50 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                     Log.d("TAG", "Encode completed successfully; playing video.");
                     playVideo(imageWithVideoPath.getAbsolutePath());
                     VIDEO_DOWNLOAD=1;
+                } else {
+                    Toast.makeText(VideoSecondActivity.this, "Encode failed. Please check log for the details.", Toast.LENGTH_LONG).show();
+                    Log.d("TAG", String.format("Encode failed with rc=%d.", returnCode));
+                }
+
+            }
+
+        });
+        Log.d(TAG, String.format("Async FFmpeg process started with executionId %d.", executionId));
+    }
+    //endregion
+
+    //region Encoded Image
+    private void encodedImage(String imagePath,String num) throws IOException {
+        File temp=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"temp");
+        if (!temp.isDirectory()&&!temp.exists()){
+            temp.mkdirs();
+        }
+        imageWithImagePath = new File(temp.getAbsolutePath() + "/outputImage"+num+".jpg");
+        if (imageWithImagePath.exists()) {
+            imageWithImagePath.delete();
+        }
+
+        final String videoCodec = selectedCodec;
+        Log.d(TAG, String.format("Testing VIDEO encoding with '%s' codec", videoCodec));
+        showProgressDialog();
+
+        String ffmpegCommand = Video.generateImageOnImage("/storage/emulated/0/Download/abhi/theme64/data/d"+num+".jpg",imagePath,imageWithImagePath.getAbsolutePath());
+        Log.d(TAG, String.format("FFmpeg process started with arguments\n'%s'.", ffmpegCommand));
+
+        long executionId = FFmpeg.executeAsync(ffmpegCommand, new ExecuteCallback() {
+            @Override
+            public void apply(long executionId, int returnCode) {
+                Log.d(TAG, String.format("FFmpeg process exited with rc %d.", returnCode));
+
+                Log.d(TAG, "FFmpeg process output:");
+
+                Config.printLastCommandOutput(Log.INFO);
+                hideProgressDialog();
+
+                if (returnCode == RETURN_CODE_SUCCESS) {
+                    Log.d("TAG", "Encode completed successfully; playing video.");
+//                    playVideo(imageWithImagePath.getAbsolutePath());
+//                    VIDEO_DOWNLOAD=1;
                 } else {
                     Toast.makeText(VideoSecondActivity.this, "Encode failed. Please check log for the details.", Toast.LENGTH_LONG).show();
                     Log.d("TAG", String.format("Encode failed with rc=%d.", returnCode));
@@ -180,6 +276,45 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         Log.d(TAG, String.format("Async FFmpeg process started with executionId %d.", executionId));
     }
     //endregion
+
+//    //region Encoded Video
+//    private void encodedImagesToVideo() throws IOException {
+//        imagesToVideoPath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/ImagesToVideo.mp4");
+//        if (imagesToVideoPath.exists()) {
+//            imagesToVideoPath.delete();
+//        }
+//
+//        showProgressDialog();
+//
+//        String ffmpegCommand = Video.generateImagesToVideo(imagesToVideoPath.getAbsolutePath());
+//        Log.d(TAG, String.format("FFmpeg process started with arguments\n'%s'.", ffmpegCommand));
+//
+//        long executionId = FFmpeg.executeAsync(ffmpegCommand, new ExecuteCallback() {
+//            @Override
+//            public void apply(long executionId, int returnCode) {
+//                Log.d(TAG, String.format("FFmpeg process exited with rc %d.", returnCode));
+//
+//                Log.d(TAG, "FFmpeg process output:");
+//
+//                Config.printLastCommandOutput(Log.INFO);
+//                hideProgressDialog();
+//
+//                if (returnCode == RETURN_CODE_SUCCESS) {
+//                    Log.d("TAG", "Encode completed successfully; playing video.");
+////                    playVideo(imagesToVideoPath.getAbsolutePath());
+////                    VIDEO_DOWNLOAD=1;
+//                } else {
+//                    Toast.makeText(VideoSecondActivity.this, "Encode failed. Please check log for the details.", Toast.LENGTH_LONG).show();
+//                    Log.d("TAG", String.format("Encode failed with rc=%d.", returnCode));
+//                }
+//
+//            }
+//
+//        });
+//        Log.d(TAG, String.format("Async FFmpeg process started with executionId %d.", executionId));
+//    }
+//    //endregion
+
 
     //region Download Video
     private void downloadVideo(File downloadFile) {
@@ -439,11 +574,18 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
             Uri uri = data.getData();
             String path = GetPathFromUri.getPathFromUri(VideoSecondActivity.this, uri);
             Log.e("Image Path",path);
-            try {
-                encodedVideo();
-            } catch (IOException e) {
-                e.printStackTrace();
+            for (int i=0;i<270;i++){
+                try {
+                    encodedImage(path, String.valueOf(i));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+//            try {
+//                encodedImage(path);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
         else if (requestCode==RESULT_LOAD_AUDIO && resultCode==RESULT_OK && null != data){
             if(data.getData()!=null){
@@ -461,6 +603,5 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
-
 
 }
