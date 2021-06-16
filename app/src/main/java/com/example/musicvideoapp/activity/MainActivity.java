@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -20,14 +21,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 //import com.example.musicvideoapp.Decompress;
 import com.example.musicvideoapp.GetPathFromUri;
+import com.example.musicvideoapp.TableMagicSlideshowRes;
 import com.example.musicvideoapp.adapter.FragmentAdapter;
 import com.example.musicvideoapp.adapter.ThemeAdapter;
 import com.example.musicvideoapp.R;
 import com.example.musicvideoapp.items.Theme;
+import com.example.musicvideoapp.utils.AsyncResponseHandler;
+import com.example.musicvideoapp.utils.Debug;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         initialize();
 //            }
 
+ //       createAppFolders();
             fragmentAdapter=new FragmentAdapter(getSupportFragmentManager());
             viewPager.setAdapter(fragmentAdapter);
             tabLayout.setupWithViewPager(viewPager);
@@ -76,19 +84,43 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 // call the unzip folder
-//        File sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);//.getExternalStorageDirectory();
-//            final File backupDBFolder = new File(sd.getPath(),"abhi");
-//        if (!backupDBFolder.exists()) {
-//            backupDBFolder.mkdirs();
-//        }
-//        try {
-//           InputStream stream=getAssets().open("Theme_64.zip");
-//           unzip(stream,backupDBFolder.getPath());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+       File sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);//.getExternalStorageDirectory();
+            final File backupDBFolder = new File(sd.getPath(),"abhi");
+        if (!backupDBFolder.exists()) {
+            backupDBFolder.mkdirs();
+        }
+        try {
+           InputStream stream=getAssets().open("Theme_64.zip");
+           unzip(stream,backupDBFolder.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
+
+//    private void createAppFolders() {
+//        File musicVideo=new File(Environment.getExternalStorageDirectory(),"MusicVideo");
+//        if (!musicVideo.exists()){
+//            musicVideo.mkdirs();
+//            if (!musicVideo.exists()&&!musicVideo.isDirectory()){
+//                File source_effect=new File(musicVideo.getAbsolutePath(),"source_effect");
+//                if (!musicVideo.exists()){
+//                    source_effect.mkdirs();
+//                }
+//            }
+//        }else {
+//            if (!musicVideo.exists()&&!musicVideo.isDirectory()){
+//                File source_effect=new File(musicVideo.getAbsolutePath()+File.separator+"source_effect");
+//                if (!musicVideo.exists()){
+//                    source_effect.mkdirs();
+//                }
+//            }else {
+//                Toast.makeText(this, "sfdsfqd", Toast.LENGTH_SHORT).show();
+//            }
+//            Toast.makeText(this, "sdfccsa", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
     public static void unzip(InputStream stream, String destination) {
         dirChecker(destination, "");
         byte[] buffer = new byte[1024 * 10];
@@ -148,24 +180,6 @@ public class MainActivity extends AppCompatActivity {
         ivMyVideo=findViewById(R.id.ivMyVideo);
         ivFavourite=findViewById(R.id.ivFavourite);
         ivSetting=findViewById(R.id.ivSetting);
-        button=findViewById(R.id.btnGetFile);
     }
 
-//    //region FOR GET STORAGE PERMISSION
-//    public boolean isStoragePermissionGranted() {
-//        int ACCESS_EXTERNAL_STORAGE = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        if ((ACCESS_EXTERNAL_STORAGE != PackageManager.PERMISSION_GRANTED)) {
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == STORAGE_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            initialize();
-//        }
-//    }
-    //endregion
 }

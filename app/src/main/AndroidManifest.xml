@@ -15,9 +15,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
+        android:preserveLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MusicVideoApp">
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.MusicVideoApp"
+        >
 
         <activity android:name=".activity.PreviewShareActivity"></activity>
         <activity android:name=".activity.FavouriteActivity" />

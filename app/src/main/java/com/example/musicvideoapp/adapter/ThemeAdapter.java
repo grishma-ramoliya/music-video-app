@@ -11,24 +11,29 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.musicvideoapp.R;
+import com.example.musicvideoapp.TableMagicSlideshowRes;
+import com.example.musicvideoapp.items.Constant;
 import com.example.musicvideoapp.items.Theme;
 import com.example.musicvideoapp.activity.VideoActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>{
-    private List<Theme> items;
+    private ArrayList<TableMagicSlideshowRes.TableMagicSlideshow> tableMagicSlideshows=new ArrayList<>();
     private Context context;
+    private SlideVideoDownload mSlideVideoDownload;
 
     public ThemeAdapter( Context context) {
 
         this.context = context;
     }
 
-    public void setItems(List<Theme> items) {
-
-        this.items = items;
+    public void setTableMagicSlideshows(ArrayList<TableMagicSlideshowRes.TableMagicSlideshow> tableMagicSlideshows) {
+        this.tableMagicSlideshows = tableMagicSlideshows;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -39,21 +44,25 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
 
     @Override
     public void onBindViewHolder(ThemeAdapter.ViewHolder viewHolder, int position) {
-        Theme viewItem = items.get(position);
-        viewHolder.imageView.setImageResource(viewItem.getImageId());
-        viewHolder.textView.setText(viewItem.getName());
+        TableMagicSlideshowRes.TableMagicSlideshow viewItem = tableMagicSlideshows.get(position);
+//        viewHolder.imageView.setImageResource(viewItem.get());
+        Glide.with(context).load(Constant.BASE_PATH_ICON +viewItem.getLink()+"/"+viewItem.getIcon()).into(viewHolder.imageView);
+        viewHolder.textView.setText(viewItem.getTextName());
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, VideoActivity.class);
-                context.startActivity(i);
+//                Intent i = new Intent(context, VideoActivity.class);
+//                context.startActivity(i);i
+                if (mSlideVideoDownload!=null){
+                    mSlideVideoDownload.OnClickVideoDownload(Constant.BASE_PATH_VIDEO_EX+viewItem.getLink()+"/"+viewItem.getLink()+"_video_ex.ip");
+                }
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return tableMagicSlideshows.size();
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
@@ -68,5 +77,11 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
             imageView = (ImageView) view.findViewById(R.id.image);
         }
     }
+    public interface SlideVideoDownload{
+        void OnClickVideoDownload(String url);
+    }
 
+    public void setSlideVideoDownload(SlideVideoDownload mSlideVideoDownload) {
+        this.mSlideVideoDownload = mSlideVideoDownload;
+    }
 }
