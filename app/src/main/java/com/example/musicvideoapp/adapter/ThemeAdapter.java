@@ -54,7 +54,7 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
 //                Intent i = new Intent(context, VideoActivity.class);
 //                context.startActivity(i);i
                 if (mSlideVideoDownload!=null){
-                    mSlideVideoDownload.OnClickVideoDownload(Constant.BASE_PATH_VIDEO_EX+viewItem.getLink()+"/"+viewItem.getLink()+"_video_ex.ip");
+                    mSlideVideoDownload.OnClickVideoDownload(Constant.BASE_PATH_VIDEO_EX+viewItem.getLink()+"/"+viewItem.getLink()+"_video_ex.ip","/"+viewItem.getLink());
                 }
             }
         });
@@ -78,7 +78,7 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
         }
     }
     public interface SlideVideoDownload{
-        void OnClickVideoDownload(String url);
+        void OnClickVideoDownload(String url,String fileName);
     }
 
     public void setSlideVideoDownload(SlideVideoDownload mSlideVideoDownload) {

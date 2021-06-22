@@ -67,9 +67,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 //
-//            if(isStoragePermissionGranted()){
+
         initialize();
-//            }
 
  //       createAppFolders();
             fragmentAdapter=new FragmentAdapter(getSupportFragmentManager());

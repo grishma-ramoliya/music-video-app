@@ -44,6 +44,7 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -53,6 +54,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import okhttp3.Call;
 import okhttp3.FormBody;
@@ -101,9 +104,14 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
         recyclerView.setLayoutManager(layoutManager);
         themeAdapter = new ThemeAdapter(view.getContext());
         themeAdapter.setTableMagicSlideshows(tableMagicSlideshows);
+        themeAdapter.setSlideVideoDownload(new ThemeAdapter.SlideVideoDownload() {
+            @Override
+            public void OnClickVideoDownload(String url,String zipName) {
+                new Download_file_from_url().execute(url,zipName);
+            }
+        });
         recyclerView.setAdapter(themeAdapter);
 
-        new Download_file_from_url().execute(file_url);
 
         FormBody.Builder body = RequestParamsUtils.newRequestFormBody(getActivity());
         body.addEncoded(RequestParamsUtils.STYLE, "1");
@@ -166,7 +174,7 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
         @Override
         public void onFinish() {
 //        dialog.dismiss();
-        }
+         }
 
         @Override
         public void onFailure(Throwable e, String content) {
@@ -174,51 +182,9 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
         }
     }
     //endregion
-//
-//    private String download_file(String f_url){
-//        int count;
-//        try {
-//            URL url = new URL(f_url);
-//            URLConnection connection = url.openConnection();
-//            connection.connect();
-//            // this will be useful so that you can show a tipical 0-100%
-//            // progress bar
-//            int lenghtOfFile = connection.getContentLength();
-//            // download the file
-//            InputStream input = new BufferedInputStream(url.openStream(),
-//                    8192);
-//            // Output stream
-//            OutputStream output = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS));
-//
-//            byte data[] = new byte[1024];
-//            long total = 0;
-//            while ((count = input.read(data)) != -1) {
-//                total += count;
-//                // publishing the progress....
-//                // After this onProgressUpdate will be called
-////                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-//
-//                // writing data to file
-//                output.write(data, 0, count);
-//            }
-//            // flushing output
-//            output.flush();
-//
-//            // closing streams
-//            output.close();
-//            input.close();
-//            return "Downloaded";
-//
-//        } catch (Exception e) {
-//            Log.e("Error: ", e.toString());
-//            return "Failed";
-//        }
-//    }
 
     class Download_file_from_url extends AsyncTask<String,String,String>{
-//        String manager;
-//        String downloadDirPath=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"";
-//        File file=new File(downloadDirPath);
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -226,65 +192,115 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
 
         @Override
         protected String doInBackground(String ... f_url) {
-//            int count;
-           try {
-//                URL url = new URL(f_url[0]+"theme51/theme51_video_ex.ip");
-//               URLConnection connection = url.openConnection();
-//               connection.connect();
+            int count;
+            try {
+                URL url = new URL(f_url[0]);
+                URLConnection connection = url.openConnection();
+                connection.connect();
 //
-               DownloadManager manager = (DownloadManager)getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-               Uri uri = Uri.parse(f_url[0]+"theme51/theme51_video_ex.ip");
-               DownloadManager.Request request = new DownloadManager.Request(uri);
-               request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-               long reference = manager.enqueue(request);
-//
-//
-//                // this will be useful so that you can show a tipical 0-100%
-//                // progress bar
-//                int lenghtOfFile = connection.getContentLength();
-//                // download the file
-//                InputStream input = new BufferedInputStream(url.openStream(),
-//                        8192);
-//                // Output stream
-//                File sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);//.getExternalStorageDirectory();
-////                final File backupDBFolder = new File(sd.getPath());
-////                if (!backupDBFolder.exists()) {
-////                    backupDBFolder.getParentFile().mkdirs();
-////                }
-//                OutputStream output = new FileOutputStream(sd.getPath());
-//
-//                byte data[] = new byte[1024];
-//                long total = 0;
-//                while ((count = input.read(data)) != -1) {
-//                    total += count;
-//                    // publishing the progress....
-//                    // After this onProgressUpdate will be called
-//                   publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-//
-//                    // writing data to file
-//                    output.write(data, 0, count);
-//                }
-//                // flushing output
-//                output.flush();
-//
-//                // closing streams
-//                output.close();
-//                input.close();
-//                return "Downloaded";
+                // this will be useful so that you can show a tipical 0-100%
+                // progress bar
+                int lenghtOfFile = connection.getContentLength();
+                // download the file
+                InputStream input = new BufferedInputStream(url.openStream(),
+                        8192);
+                // Output stream
+                File sd = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+f_url[1]);//.getExternalStorageDirectory();
+                OutputStream output = new FileOutputStream(sd.getPath());
+
+                byte data[] = new byte[1024];
+                long total = 0;
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+
+                    // writing data to file
+                    output.write(data, 0, count);
+                }
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+
+                // call the unzip folder
+                File makeDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"/"+f_url[1]);//.getExternalStorageDirectory();
+                if (!makeDir.exists()) {
+                    makeDir.mkdirs();
+                }
+                try {
+                    InputStream stream=new FileInputStream(sd);
+                    unzip(stream,makeDir.getPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return "Downloaded";
 
             } catch (Exception e) {
                 Log.e("Error: ", e.toString());
                 return "Failed";
             }
-            return "download";
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
-        }
+         }
     }
+
+     public static void unzip(InputStream stream, String destination) {
+         dirChecker(destination, "");
+         byte[] buffer = new byte[1024 * 10];
+         try {
+             ZipInputStream zin = new ZipInputStream(stream);
+             ZipEntry ze = null;
+
+             while ((ze = zin.getNextEntry()) != null) {
+                 Log.v("TAG", "Unzipping " + ze.getName());
+
+                 if (ze.isDirectory()) {
+                     dirChecker(destination, ze.getName());
+                 } else {
+                     File f = new File(destination, ze.getName());
+                     if (!f.exists()) {
+                         boolean success = f.createNewFile();
+                         if (!success) {
+                             Log.w("TAG", "Failed to create file " + f.getName());
+                             continue;
+                         }
+                         FileOutputStream fout = new FileOutputStream(f);
+                         int count;
+                         while ((count = zin.read(buffer)) != -1) {
+                             fout.write(buffer, 0, count);
+                         }
+                         zin.closeEntry();
+                         fout.close();
+                     }
+                 }
+
+             }
+             zin.close();
+         } catch (Exception e) {
+             Log.e("TAG", "unzip", e);
+         }
+
+     }
+
+     private static void dirChecker(String destination, String dir) {
+         File f = new File(destination, dir);
+
+         if (!f.isDirectory()) {
+             boolean success = f.mkdirs();
+             if (!success) {
+                 Log.w("TAG", "Failed to create folder " + f.getName());
+             }
+         }
+     }
 
     //region Permission
     private boolean checkUsesPermission(int REQUEST_CODE) {
