@@ -58,6 +58,7 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
                 }
             }
         });
+
     }
 
     @Override

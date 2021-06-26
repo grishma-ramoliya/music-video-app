@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -69,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
 //
 
         initialize();
-
- //       createAppFolders();
+//        isStoragePermissionGranted();
+        createAppFolders();
             fragmentAdapter=new FragmentAdapter(getSupportFragmentManager());
             viewPager.setAdapter(fragmentAdapter);
             tabLayout.setupWithViewPager(viewPager);
@@ -82,91 +83,36 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intentHome);
                 }
             });
-// call the unzip folder
-       File sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);//.getExternalStorageDirectory();
-            final File backupDBFolder = new File(sd.getPath(),"abhi");
-        if (!backupDBFolder.exists()) {
-            backupDBFolder.mkdirs();
-        }
-        try {
-           InputStream stream=getAssets().open("Theme_64.zip");
-           unzip(stream,backupDBFolder.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
     }
 
-//    private void createAppFolders() {
-//        File musicVideo=new File(Environment.getExternalStorageDirectory(),"MusicVideo");
-//        if (!musicVideo.exists()){
-//            musicVideo.mkdirs();
-//            if (!musicVideo.exists()&&!musicVideo.isDirectory()){
-//                File source_effect=new File(musicVideo.getAbsolutePath(),"source_effect");
-//                if (!musicVideo.exists()){
-//                    source_effect.mkdirs();
-//                }
-//            }
-//        }else {
-//            if (!musicVideo.exists()&&!musicVideo.isDirectory()){
-//                File source_effect=new File(musicVideo.getAbsolutePath()+File.separator+"source_effect");
-//                if (!musicVideo.exists()){
-//                    source_effect.mkdirs();
-//                }
-//            }else {
-//                Toast.makeText(this, "sfdsfqd", Toast.LENGTH_SHORT).show();
-//            }
-//            Toast.makeText(this, "sdfccsa", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-    public static void unzip(InputStream stream, String destination) {
-        dirChecker(destination, "");
-        byte[] buffer = new byte[1024 * 10];
-        try {
-            ZipInputStream zin = new ZipInputStream(stream);
-            ZipEntry ze = null;
-
-            while ((ze = zin.getNextEntry()) != null) {
-                Log.v("TAG", "Unzipping " + ze.getName());
-
-                if (ze.isDirectory()) {
-                    dirChecker(destination, ze.getName());
-                } else {
-                    File f = new File(destination, ze.getName());
-                    if (!f.exists()) {
-                        boolean success = f.createNewFile();
-                        if (!success) {
-                            Log.w("TAG", "Failed to create file " + f.getName());
-                            continue;
-                        }
-                        FileOutputStream fout = new FileOutputStream(f);
-                        int count;
-                        while ((count = zin.read(buffer)) != -1) {
-                            fout.write(buffer, 0, count);
-                        }
-                        zin.closeEntry();
-                        fout.close();
-                    }
+//  Create Folder
+    private void createAppFolders() {
+        File musicVideo=new File(Environment.getExternalStorageDirectory(),"MusicVideo");
+        if (!musicVideo.exists()){
+            musicVideo.mkdirs();
+            if (!musicVideo.exists()&&!musicVideo.isDirectory()){
+                File source_effect=new File(musicVideo.getAbsolutePath(),"source_effect");
+                if (!musicVideo.exists()){
+                    source_effect.mkdirs();
                 }
-
             }
-            zin.close();
-        } catch (Exception e) {
-            Log.e("TAG", "unzip", e);
-        }
-
-    }
-    private static void dirChecker(String destination, String dir) {
-        File f = new File(destination, dir);
-
-        if (!f.isDirectory()) {
-            boolean success = f.mkdirs();
-            if (!success) {
-                Log.w("TAG", "Failed to create folder " + f.getName());
+        }else {
+            if (!musicVideo.exists()&&!musicVideo.isDirectory()){
+                File source_effect=new File(musicVideo.getAbsolutePath()+File.separator+"source_effect");
+                if (!musicVideo.exists()){
+                    source_effect.mkdirs();
+                }
+            }else {
+                Toast.makeText(this, "sfdsfqd", Toast.LENGTH_SHORT).show();
             }
+            Toast.makeText(this, "sdfccsa", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
     //region FOR ADD UI ACTION CALL FOR ENCODING
     public static void addUIAction(final Callable<Object> callable) {
         actionQueue.add(callable);
@@ -180,5 +126,24 @@ public class MainActivity extends AppCompatActivity {
         ivFavourite=findViewById(R.id.ivFavourite);
         ivSetting=findViewById(R.id.ivSetting);
     }
+
+//    public  boolean isStoragePermissionGranted() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                    == PackageManager.PERMISSION_GRANTED) {
+//                Log.v("tag","Permission is granted");
+//                return true;
+//            } else {
+//
+//                Log.v("tag","Permission is revoked");
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+//                return false;
+//            }
+//        }
+//        else { //permission is automatically granted on sdk<23 upon installation
+//            Log.v("tag","Permission is granted");
+//            return true;
+//        }
+//    }
 
 }

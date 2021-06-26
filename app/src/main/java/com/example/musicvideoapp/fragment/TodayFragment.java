@@ -1,4 +1,4 @@
- package com.example.musicvideoapp.fragment;
+  package com.example.musicvideoapp.fragment;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.example.musicvideoapp.R;
 import com.example.musicvideoapp.TableMagicSlideshowRes;
 import com.example.musicvideoapp.activity.MainActivity;
+import com.example.musicvideoapp.activity.VideoActivity;
 import com.example.musicvideoapp.adapter.ThemeAdapter;
 import com.example.musicvideoapp.items.Theme;
 import com.example.musicvideoapp.utils.AsyncHttpRequest;
@@ -57,6 +58,7 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import ir.mahdi.mzip.zip.ZipArchive;
 import okhttp3.Call;
 import okhttp3.FormBody;
 
@@ -72,10 +74,10 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
 
  public class TodayFragment extends Fragment {
 
-    private RecyclerView recyclerView;
-    private ThemeAdapter themeAdapter;
-    private ArrayList<TableMagicSlideshowRes.TableMagicSlideshow> tableMagicSlideshows=new ArrayList<>();
-    private static String file_url = "http://108.61.220.32/public_html/android_ads/MAGIC_SLIDESHOW_SOURCE/";//theme47/icon_theme.jpg";
+     private RecyclerView recyclerView;
+     private ThemeAdapter themeAdapter;
+     private ArrayList<TableMagicSlideshowRes.TableMagicSlideshow> tableMagicSlideshows=new ArrayList<>();
+     private static String file_url = "http://108.61.220.32/public_html/android_ads/MAGIC_SLIDESHOW_SOURCE/";//theme47/icon_theme.jpg";
 
 
      @Override
@@ -86,7 +88,6 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       // recyclerView.setHasFixedSize(true);
         if (checkUsesPermission(CAMERA_REQUEST_CODE)) {
 //            capturePictureFromCamera();
         } else {
@@ -205,7 +206,7 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                 InputStream input = new BufferedInputStream(url.openStream(),
                         8192);
                 // Output stream
-                File sd = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+f_url[1]);//.getExternalStorageDirectory();
+                File sd = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+f_url[1]+".zip");//.getExternalStorageDirectory();
                 OutputStream output = new FileOutputStream(sd.getPath());
 
                 byte data[] = new byte[1024];
@@ -227,17 +228,14 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                 input.close();
 
                 // call the unzip folder
-                File makeDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"/"+f_url[1]);//.getExternalStorageDirectory();
-                if (!makeDir.exists()) {
-                    makeDir.mkdirs();
-                }
-                try {
-                    InputStream stream=new FileInputStream(sd);
-                    unzip(stream,makeDir.getPath());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
+                ZipArchive zipArchive = new ZipArchive();
+                zipArchive.unzip("/storage/emulated/0/Download"+f_url[1]+".zip","/storage/emulated/0/Download","");
+
+                Intent intent=new Intent(getActivity(), VideoActivity.class);
+                intent.putExtra("videoPath","/storage/emulated/0/Download"+f_url[1]+""+f_url[1]+"_video_ex"+"/"+"video.mp4");
+                intent.putExtra("folder",f_url[1]);
+                startActivity(intent);
                 return "Downloaded";
 
             } catch (Exception e) {
@@ -249,6 +247,7 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
             Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
          }
     }
@@ -268,18 +267,23 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                  } else {
                      File f = new File(destination, ze.getName());
                      if (!f.exists()) {
-                         boolean success = f.createNewFile();
-                         if (!success) {
-                             Log.w("TAG", "Failed to create file " + f.getName());
+                         try {
+                             boolean success = f.createNewFile();
+                             if (!success) {
+                                 Log.w("TAG", "Failed to create file " + f.getName());
+                                 continue;
+                             }
+                             FileOutputStream fout = new FileOutputStream(f);
+                             int count;
+                             while ((count = zin.read(buffer)) != -1) {
+                                 fout.write(buffer, 0, count);
+                             }
+                             zin.closeEntry();
+                             fout.close();
+                         }catch (Exception e){
+                             e.printStackTrace();
                              continue;
                          }
-                         FileOutputStream fout = new FileOutputStream(f);
-                         int count;
-                         while ((count = zin.read(buffer)) != -1) {
-                             fout.write(buffer, 0, count);
-                         }
-                         zin.closeEntry();
-                         fout.close();
                      }
                  }
 
@@ -295,7 +299,7 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
          File f = new File(destination, dir);
 
          if (!f.isDirectory()) {
-             boolean success = f.mkdirs();
+             boolean success = f.getParentFile().mkdirs();
              if (!success) {
                  Log.w("TAG", "Failed to create folder " + f.getName());
              }
@@ -355,5 +359,31 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
         }
     }
 
+//     private void checkPermission() {
+//         if (SDK_INT >= Build.VERSION_CODES.R) {
+//             if (Environment.isExternalStorageManager()){
+//                 new GetSdcardFiles().execute(new String[0]);
+//             }else {
+//                 try {
+//                     Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+//                     intent.addCategory("android.intent.category.DEFAULT");
+//                     intent.setData(Uri.parse(String.format("package:%s",getApplicationContext().getPackageName())));
+//                     startActivityForResult(intent, 2296);
+//                 } catch (Exception e) {
+//                     Intent intent = new Intent();
+//                     intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+//                     startActivityForResult(intent, 2296);
+//                 }
+//             }
+//         } else {
+//             int result = ContextCompat.checkSelfPermission(SplashActivity.this, READ_EXTERNAL_STORAGE);
+//             int result1 = ContextCompat.checkSelfPermission(SplashActivity.this, WRITE_EXTERNAL_STORAGE);
+//             if (result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED){
+//                 new GetSdcardFiles().execute(new String[0]);
+//             }else {
+//                 ActivityCompat.requestPermissions(SplashActivity.this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PERMISSION_REQ);
+//             }
+//         }
+//     }
     //endregion
 }
