@@ -77,7 +77,6 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
      private RecyclerView recyclerView;
      private ThemeAdapter themeAdapter;
      private ArrayList<TableMagicSlideshowRes.TableMagicSlideshow> tableMagicSlideshows=new ArrayList<>();
-     private static String file_url = "http://108.61.220.32/public_html/android_ads/MAGIC_SLIDESHOW_SOURCE/";//theme47/icon_theme.jpg";
 
 
      @Override
@@ -94,11 +93,12 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
             requestUsesPermissions(CAMERA_REQUEST_CODE);
         }
         if (checkUsesPermission(STORAGE_REQUEST_CODE)) {
-            Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-            startActivityForResult(gallery, PICK_IMAGE);
+//            Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+//            startActivityForResult(gallery, PICK_IMAGE);
         } else {
             requestUsesPermissions(STORAGE_REQUEST_CODE);
         }
+
         recyclerView = view.findViewById(R.id.recycleView);
 
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 2);
@@ -233,7 +233,7 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                 zipArchive.unzip("/storage/emulated/0/Download"+f_url[1]+".zip","/storage/emulated/0/Download","");
 
                 Intent intent=new Intent(getActivity(), VideoActivity.class);
-                intent.putExtra("videoPath","/storage/emulated/0/Download"+f_url[1]+""+f_url[1]+"_video_ex"+"/"+"video.mp4");
+                intent.putExtra("videoPath","/storage/emulated/0/Download"+f_url[1]+"_video_ex"+"/"+"video.mp4");
                 intent.putExtra("folder",f_url[1]);
                 startActivity(intent);
                 return "Downloaded";
@@ -251,60 +251,52 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
             Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
          }
     }
+    // Unzip function
 
-     public static void unzip(InputStream stream, String destination) {
-         dirChecker(destination, "");
-         byte[] buffer = new byte[1024 * 10];
-         try {
-             ZipInputStream zin = new ZipInputStream(stream);
-             ZipEntry ze = null;
+//     public static void unzip(InputStream stream, String destination) {
+//         dirChecker(destination, "");
+//         byte[] buffer = new byte[1024 * 10];
+//         try {
+//             ZipInputStream zin = new ZipInputStream(stream);
+//             ZipEntry ze = null;
+//
+//             while ((ze = zin.getNextEntry()) != null) {
+//                 Log.v("TAG", "Unzipping " + ze.getName());
+//
+//                 if (ze.isDirectory()) {
+//                     dirChecker(destination, ze.getName());
+//                 } else {
+//                     File f = new File(destination, ze.getName());
+//                     if (!f.exists()) {
+//                         try {
+//                             boolean success = f.createNewFile();
+//                             if (!success) {
+//                                 Log.w("TAG", "Failed to create file " + f.getName());
+//                                 continue;
+//                             }
+//                             FileOutputStream fout = new FileOutputStream(f);
+//                             int count;
+//                             while ((count = zin.read(buffer)) != -1) {
+//                                 fout.write(buffer, 0, count);
+//                             }
+//                             zin.closeEntry();
+//                             fout.close();
+//                         }catch (Exception e){
+//                             e.printStackTrace();
+//                             continue;
+//                         }
+//                     }
+//                 }
+//
+//             }
+//             zin.close();
+//         } catch (Exception e) {
+//             Log.e("TAG", "unzip", e);
+//         }
+//
+//     }
 
-             while ((ze = zin.getNextEntry()) != null) {
-                 Log.v("TAG", "Unzipping " + ze.getName());
-
-                 if (ze.isDirectory()) {
-                     dirChecker(destination, ze.getName());
-                 } else {
-                     File f = new File(destination, ze.getName());
-                     if (!f.exists()) {
-                         try {
-                             boolean success = f.createNewFile();
-                             if (!success) {
-                                 Log.w("TAG", "Failed to create file " + f.getName());
-                                 continue;
-                             }
-                             FileOutputStream fout = new FileOutputStream(f);
-                             int count;
-                             while ((count = zin.read(buffer)) != -1) {
-                                 fout.write(buffer, 0, count);
-                             }
-                             zin.closeEntry();
-                             fout.close();
-                         }catch (Exception e){
-                             e.printStackTrace();
-                             continue;
-                         }
-                     }
-                 }
-
-             }
-             zin.close();
-         } catch (Exception e) {
-             Log.e("TAG", "unzip", e);
-         }
-
-     }
-
-     private static void dirChecker(String destination, String dir) {
-         File f = new File(destination, dir);
-
-         if (!f.isDirectory()) {
-             boolean success = f.getParentFile().mkdirs();
-             if (!success) {
-                 Log.w("TAG", "Failed to create folder " + f.getName());
-             }
-         }
-     }
+//
 
     //region Permission
     private boolean checkUsesPermission(int REQUEST_CODE) {
@@ -346,8 +338,8 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                 break;
             case STORAGE_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                    startActivityForResult(gallery, PICK_IMAGE);
+//                    Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+//                    startActivityForResult(gallery, PICK_IMAGE);
                 } else {
                     Toast.makeText(getContext(), "Allow Permission Manually in Setting ", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);

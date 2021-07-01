@@ -2,6 +2,11 @@
     <string name="app_name">MusicVideoApp</string>
     <string name="download">Download</string>
     <string name="replace_music">Replace Music</string>
+    <string name="local">Local</string>
+    <string name="featured">Featured</string>
+    <string name="name">Name</string>
+    <string name="duration">Duration</string>
+
 
     <string-array name="video_codec">
         <item>mpeg4</item>

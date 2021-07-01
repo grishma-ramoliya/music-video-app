@@ -110,7 +110,13 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
 //        }
 
         llAddImage.setOnClickListener(this);
-        llAddMusic.setOnClickListener(this);
+        llAddMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMusic = new Intent(VideoSecondActivity.this,SelectMusicActivity.class);
+                startActivity(intentMusic);
+            }
+        });
         btnDownload.setOnClickListener(this);
 
         backArrow.setOnClickListener(new View.OnClickListener() {

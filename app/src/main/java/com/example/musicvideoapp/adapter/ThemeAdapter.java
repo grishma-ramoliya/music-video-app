@@ -1,4 +1,4 @@
-package com.example.musicvideoapp.adapter;
+    package com.example.musicvideoapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;

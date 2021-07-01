@@ -50,6 +50,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import ir.mahdi.mzip.zip.ZipArchive;
+
 public class MainActivity extends AppCompatActivity {
 
     //how to get images from the device programmatically in android
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+//        ZipArchive zipArchive = new ZipArchive();
+//        zipArchive.unzip("/storage/emulated/0/Download/theme65.ip.zip","/storage/emulated/0/Download","");
 
     }
 

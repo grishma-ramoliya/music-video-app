@@ -2,6 +2,7 @@
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.AlertDialog;
@@ -68,14 +69,17 @@ public class VideoActivity extends AppCompatActivity {
         initialize();
 
 //        videoView.setVideoPath("android.resource://"+getPackageName()+"/"+R.raw.video);
-        videoView.setVideoURI(Uri.parse(videoPath));
 
-        MediaController mediaController=new MediaController(this);
-        mediaController.setAnchorView(videoView);
-        videoView.setMediaController(mediaController);
+//        File file=new File(videoPath);
+//        Uri uri = FileProvider.getUriForFile(this, "com.example.musicvideoapp.fileProvider",file);
+        MediaController controller=new MediaController(this);
+        controller.setAnchorView(videoView);
+        Uri uri=Uri.parse(videoPath);
+        videoView.setMediaController(controller);
+        videoView.setVideoURI(uri);
+        videoView.requestFocus();
         videoView.start();
 
-// call the unzip folder
 
 
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -141,13 +145,10 @@ public class VideoActivity extends AppCompatActivity {
                 output.close();
                 input.close();
 
-//                // call the unzip folder
+                // call the unzip folder
                  ZipArchive zipArchive = new ZipArchive();
                 zipArchive.unzip("/storage/emulated/0/Download"+f_url[1]+"NEW.zip","/storage/emulated/0/Download","");
 
-//                Intent intent=new Intent(getActivity(), VideoSecondActivity.class);
-//                intent.putExtra("videoPath","/storage/emulated/0/Download"+f_url[1]+""+f_url[1]+"_video_ex"+"/"+"video.mp4");
-//                startActivity(intent);
                 return "Downloaded";
 
             } catch (Exception e) {
@@ -160,7 +161,6 @@ public class VideoActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-           // Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
         }
     }
 
