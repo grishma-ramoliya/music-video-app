@@ -10,6 +10,9 @@ public class URLs {
     public static String GET_ALL_MAGIC_THEME() {
         return MAIN_URL + "get_all_magic_theme.php";
     }
+    public static String GET_DATA_MUSIC_ONLINE(){
+        return MAIN_URL+"get_data_music_online.php";
+    }
 
 
 }

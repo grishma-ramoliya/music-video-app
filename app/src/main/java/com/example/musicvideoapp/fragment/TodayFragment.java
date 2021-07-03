@@ -90,6 +90,7 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
         if (checkUsesPermission(CAMERA_REQUEST_CODE)) {
 //            capturePictureFromCamera();
         } else {
+
             requestUsesPermissions(CAMERA_REQUEST_CODE);
         }
         if (checkUsesPermission(STORAGE_REQUEST_CODE)) {

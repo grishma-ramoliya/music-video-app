@@ -23,28 +23,24 @@
         android:layout_width="fill_parent" android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar">
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="0.0dip"
-            android:layout_height="fill_parent"
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:id="@+id/btnLocal"
             android:text="@string/local"
-            android:textColor="@color/black"
+            android:textColor="@color/gray"
             android:textSize="@dimen/_15ssp"
-            app:backgroundTint="@android:color/transparent"
             android:background="@drawable/btnmusic_bkg"
             android:textAllCaps="false"
             android:layout_weight="1.0" />
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="0.0dip"
-            android:layout_height="fill_parent"
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:id="@+id/btnFeatured"
             android:text="@string/featured"
-            android:textColor="@color/black"
+            android:textColor="@color/gray"
             android:textSize="@dimen/_15ssp"
-            app:backgroundTint="@android:color/transparent"
             android:background="@drawable/btnmusic_bkg"
             android:textAllCaps="false"
             android:layout_weight="1.0" />
@@ -56,21 +52,21 @@
         android:layout_height="wrap_content"
         android:text="Browers...."
         android:layout_below="@id/llButton"
+        android:layout_margin="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_15sdp"
-        android:paddingTop="@dimen/_15sdp"
-        android:textSize="@dimen/_16sdp"
+        android:paddingBottom="@dimen/_12sdp"
+        android:paddingTop="@dimen/_12sdp"
+        android:textSize="@dimen/_15ssp"
         android:background="@color/lightgray"
         android:textAllCaps="false"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rcvMusic"
-        android:layout_below="@id/btnBrowers"
-        android:layout_marginTop="@dimen/_15sdp"/>
-
-
+        android:id="@+id/vpMusic"
+        android:background="@color/white"
+        android:layout_below="@+id/btnBrowers">
+    </androidx.viewpager.widget.ViewPager>
 
 
 </RelativeLayout>
