@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
     private ArrayList<DataMusicOnlineRes.DataMusicOnline> dataMusicOnlines=new ArrayList<>();
     private Context context;
     private SlideMusicDownload slideMusicDownload;
+
 
     public MusicAdapter(Context context)
     {
@@ -70,6 +72,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         private TextView txtSongName,txtAuthorName,txtDuration;
         private ImageView ivMusic;
         private LinearLayout llMusicItem;
+        private CardView cvUseMusic;
 
         public ViewHolder(View view) {
             super(view);
@@ -78,6 +81,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             txtDuration=view.findViewById(R.id.txtDuration);
             ivMusic=view.findViewById(R.id.ivMusic);
             llMusicItem=view.findViewById(R.id.llMusicItem);
+            cvUseMusic=view.findViewById(R.id.cvUseMusic);
+//
+//            cvUseMusic.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
+
         }
     }
     public interface SlideMusicDownload{

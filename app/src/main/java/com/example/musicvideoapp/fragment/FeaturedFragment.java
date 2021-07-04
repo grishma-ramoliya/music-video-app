@@ -2,6 +2,9 @@ package com.example.musicvideoapp.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -22,6 +25,7 @@ import com.example.musicvideoapp.DataMusicOnlineRes;
 import com.example.musicvideoapp.R;
 import com.example.musicvideoapp.activity.SelectMusicActivity;
 import com.example.musicvideoapp.activity.VideoActivity;
+import com.example.musicvideoapp.activity.VideoSecondActivity;
 import com.example.musicvideoapp.adapter.MusicAdapter;
 import com.example.musicvideoapp.utils.AsyncHttpRequest;
 import com.example.musicvideoapp.utils.AsyncResponseHandler;
@@ -54,6 +58,9 @@ public class FeaturedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FeaturedFragment.AsyncTaskExample asyncTask=new FeaturedFragment.AsyncTaskExample();
+        asyncTask.execute("/storage/emulated/0/Download/dreams_tonite.aac");
     }
 
     @Override
@@ -223,4 +230,31 @@ public class FeaturedFragment extends Fragment {
         }
     }
     //endregion
+
+    private class AsyncTaskExample extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... f_url) {
+            MediaPlayer music =new  MediaPlayer();
+            try {
+                music.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                music.setDataSource(getContext(), Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+f_url[1]));
+                music.prepare();
+                music.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
 }
