@@ -31,6 +31,8 @@ import com.example.musicvideoapp.TableMagicSlideshowRes;
 import com.example.musicvideoapp.activity.MainActivity;
 import com.example.musicvideoapp.activity.VideoActivity;
 import com.example.musicvideoapp.adapter.ThemeAdapter;
+import com.example.musicvideoapp.database.Like;
+import com.example.musicvideoapp.database.likeDatabase;
 import com.example.musicvideoapp.items.Theme;
 import com.example.musicvideoapp.utils.AsyncHttpRequest;
 import com.example.musicvideoapp.utils.AsyncResponseHandler;
@@ -77,7 +79,8 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
      private RecyclerView recyclerView;
      private ThemeAdapter themeAdapter;
      private ArrayList<TableMagicSlideshowRes.TableMagicSlideshow> tableMagicSlideshows=new ArrayList<>();
-
+     private likeDatabase DB;
+     private ArrayList<Like> likes=new ArrayList<>();
 
      @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +103,7 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
             requestUsesPermissions(STORAGE_REQUEST_CODE);
         }
 
+        DB=likeDatabase.getInstance(getContext());
         recyclerView = view.findViewById(R.id.recycleView);
 
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 2);
@@ -110,6 +114,23 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
             @Override
             public void OnClickVideoDownload(String url,String zipName) {
                 new Download_file_from_url().execute(url,zipName);
+            }
+
+            @Override
+            public void OnClickThemeLike(int position) {
+                TableMagicSlideshowRes.TableMagicSlideshow tableMagicSlideshow=tableMagicSlideshows.get(position);
+                DB.likeDao().addLike(new Like(tableMagicSlideshow.getLink(),tableMagicSlideshow.getId()));
+                tableMagicSlideshows.get(position).setLike(true);
+                themeAdapter.setTableMagicSlideshows(tableMagicSlideshows);
+            }
+
+            @Override
+            public void OnClickThemeUnLike(int position) {
+                TableMagicSlideshowRes.TableMagicSlideshow tableMagicSlideshow=tableMagicSlideshows.get(position);
+                Like like=DB.likeDao().getLike(tableMagicSlideshow.getLink(),tableMagicSlideshow.getId());
+                DB.likeDao().removeLike(like);
+                tableMagicSlideshows.get(position).setLike(false);
+                themeAdapter.setTableMagicSlideshows(tableMagicSlideshows);
             }
         });
         recyclerView.setAdapter(themeAdapter);
@@ -152,6 +173,21 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                         @Override
                         public void run() {
                            tableMagicSlideshows.addAll( res.getTableMagicSlideshow());
+                           likes=new ArrayList<>();
+                           likes.addAll(DB.likeDao().getLikes());
+                           for (int i=0;i<tableMagicSlideshows.size();i++){
+                               if (!likes.isEmpty()){
+                                   for(int j=0;j<likes.size();j++){
+                                       if (tableMagicSlideshows.get(i).getId().equals(String.valueOf(likes.get(j).getThemeId())))
+                                       {
+                                           tableMagicSlideshows.get(i).setLike(true);
+                                       }
+                                   }
+                               }
+                               else {
+
+                               }
+                            }
                             themeAdapter.setTableMagicSlideshows(tableMagicSlideshows);
 //                        dialog.dismiss();
                                 Toast.makeText(getContext(), "Data Found", Toast.LENGTH_SHORT).show();

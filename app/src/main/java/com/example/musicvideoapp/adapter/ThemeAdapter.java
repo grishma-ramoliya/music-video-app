@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -48,6 +49,13 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
 //        viewHolder.imageView.setImageResource(viewItem.get());
         Glide.with(context).load(Constant.BASE_PATH_ICON +viewItem.getLink()+"/"+viewItem.getIcon()).into(viewHolder.imageView);
         viewHolder.textView.setText(viewItem.getTextName());
+        if (viewItem.isLike()){
+            Glide.with(context).load(ContextCompat.getDrawable(context,R.drawable.ic_heart_fill)).into(viewHolder.ivLike);
+        }
+        else {
+            Glide.with(context).load(ContextCompat.getDrawable(context,R.drawable.ic_heart)).into(viewHolder.ivLike);
+        }
+        viewHolder.ivLike.setColorFilter(ContextCompat.getColor(context,R.color.red));
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +63,18 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
 //                context.startActivity(i);i
                 if (mSlideVideoDownload!=null){
                     mSlideVideoDownload.OnClickVideoDownload(Constant.BASE_PATH_VIDEO_EX+viewItem.getLink()+"/"+viewItem.getLink()+"_video_ex.ip","/"+viewItem.getLink());
+                }
+            }
+        });
+        viewHolder.ivLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mSlideVideoDownload!=null){
+                    if (viewItem.isLike()){
+                        mSlideVideoDownload.OnClickThemeUnLike(position);
+                    }else {
+                        mSlideVideoDownload.OnClickThemeLike(position);
+                    }
                 }
             }
         });
@@ -70,16 +90,20 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
         private CardView cardView;
         private ImageView imageView;
         private TextView textView;
+        private ImageView ivLike;
 
         public ViewHolder(View view) {
             super(view);
             cardView=view.findViewById(R.id.card_view);
             textView = (TextView)view.findViewById(R.id.name);
             imageView = (ImageView) view.findViewById(R.id.image);
+            ivLike =  view.findViewById(R.id.ivLike);
         }
     }
     public interface SlideVideoDownload{
         void OnClickVideoDownload(String url,String fileName);
+        void OnClickThemeLike(int position);
+        void OnClickThemeUnLike(int position);
     }
 
     public void setSlideVideoDownload(SlideVideoDownload mSlideVideoDownload) {

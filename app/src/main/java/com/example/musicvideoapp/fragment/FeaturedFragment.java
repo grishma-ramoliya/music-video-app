@@ -59,8 +59,8 @@ public class FeaturedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FeaturedFragment.AsyncTaskExample asyncTask=new FeaturedFragment.AsyncTaskExample();
-        asyncTask.execute("/storage/emulated/0/Download/dreams_tonite.aac");
+//        FeaturedFragment.AsyncTaskExample asyncTask=new FeaturedFragment.AsyncTaskExample();
+//        asyncTask.execute("/storage/emulated/0/Download/dreams_tonite.aac");
     }
 
     @Override
@@ -182,7 +182,15 @@ public class FeaturedFragment extends Fragment {
                 output.flush();
                 output.close();
                 input.close();
-
+                MediaPlayer music =new  MediaPlayer();
+                try {
+                    music.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    music.setDataSource(getContext(), Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+f_url[1]));
+                    music.prepare();
+                    music.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 /*URL url = new URL(f_url[0]);
                 URLConnection connection = url.openConnection();
                 connection.connect();
@@ -240,15 +248,7 @@ public class FeaturedFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... f_url) {
-            MediaPlayer music =new  MediaPlayer();
-            try {
-                music.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                music.setDataSource(getContext(), Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+f_url[1]));
-                music.prepare();
-                music.start();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
             return null;
         }
 

@@ -3,6 +3,7 @@ package com.example.musicvideoapp.items;
 public class Theme {
     private String name;
     private int imageId;
+    private boolean isLike=false;
 
     public Theme(String name, int imageId){
         this.name = name;
@@ -21,9 +22,15 @@ public class Theme {
         return name;
     }
 
-
     public int getImageId() {
         return imageId;
     }
 
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+    }
 }

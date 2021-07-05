@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.musicvideoapp.DataMusicOnlineRes;
@@ -40,7 +41,7 @@ public class SelectMusicActivity extends AppCompatActivity {
 
     private MusicFragAdapter musicFragAdapter;
     private ViewPager viewPager;
-    private Button btnLocal , btnFeatured;
+    private TextView btnLocal , btnFeatured;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +51,10 @@ public class SelectMusicActivity extends AppCompatActivity {
 
         musicFragAdapter=new MusicFragAdapter(getSupportFragmentManager());
         viewPager.setAdapter(musicFragAdapter);
+        btnLocal.setBackgroundColor(Color.BLACK);
+        btnFeatured.setBackgroundColor(Color.WHITE);
+        btnLocal.setTextColor(Color.WHITE);
+        btnFeatured.setTextColor(Color.BLACK);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -60,9 +65,13 @@ public class SelectMusicActivity extends AppCompatActivity {
                 if(position==0) {
                     btnLocal.setBackgroundColor(Color.BLACK);
                     btnFeatured.setBackgroundColor(Color.WHITE);
+                    btnLocal.setTextColor(Color.WHITE);
+                    btnFeatured.setTextColor(Color.BLACK);
                 }else {
                     btnLocal.setBackgroundColor(Color.WHITE);
                     btnFeatured.setBackgroundColor(Color.BLACK);
+                    btnLocal.setTextColor(Color.BLACK);
+                    btnFeatured.setTextColor(Color.WHITE);
                 }
 
             }

@@ -62,6 +62,8 @@ public class TableMagicSlideshowRes {
         @Expose
         private String music;
 
+        private boolean isLike=false;
+
         public String getId() {
             return id;
         }
@@ -142,5 +144,12 @@ public class TableMagicSlideshowRes {
             this.music = music;
         }
 
+        public boolean isLike() {
+            return isLike;
+        }
+
+        public void setLike(boolean like) {
+            isLike = like;
+        }
     }
 }

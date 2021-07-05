@@ -12,4 +12,5 @@ public class Constant {
     public static final int CAMERA_REQUEST_CODE = 1334;
     public static final int STORAGE_REQUEST_CODE = 1335;
 
+    public static final String tblLike="tblLike";
 }
