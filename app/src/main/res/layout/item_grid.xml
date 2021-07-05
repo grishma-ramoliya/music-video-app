@@ -38,9 +38,9 @@
 
             <ImageView
                 android:id="@+id/ivLike"
-                android:layout_width="@dimen/_24sdp"
-                android:layout_height="@dimen/_24sdp"
-                android:padding="@dimen/_4sdp"
+                android:layout_width="@dimen/_26sdp"
+                android:layout_height="@dimen/_26sdp"
+                android:padding="@dimen/_5sdp"
                 android:src="@drawable/ic_heart_fill"
                 app:tint="@color/red" />
         </LinearLayout>

@@ -79,15 +79,15 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
 
         initialize();
 
-        Glide.with(this).load("/storage/emulated/0/Download/abhi/theme64/data/d1.jpg").into(ivImages);
+        Glide.with(this).load("/storage/emulated/0/Download/abhi/theme65/data/d1.png").into(ivImages);
         int[] i = new int[270];
         for (int j=1;j<270;j++){
             i[j]=j;
         }
 
         VideoSecondActivity.AsyncTaskExample asyncTask=new VideoSecondActivity.AsyncTaskExample();
-        asyncTask.execute("/storage/emulated/0/Download/abhi/theme64/data/sound.aac");
-        new CountDownTimer(500,1777){
+        asyncTask.execute("/storage/emulated/0/Download/abhi/theme65/data/sound.aac");
+        new CountDownTimer(500,2777){
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -95,7 +95,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onFinish() {
-                Glide.with(VideoSecondActivity.this).load("/storage/emulated/0/Download/abhi/theme64/data/d"+ i[0] +".jpg").into(ivImages);
+                Glide.with(VideoSecondActivity.this).load("/storage/emulated/0/Download/abhi/theme65/data/d"+ i[0] +".png").into(ivImages);
                 int j=i[0]++;
                 if (j==270){
                     i[0] =0;}

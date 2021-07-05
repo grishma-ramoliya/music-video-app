@@ -244,6 +244,7 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                         8192);
                 // Output stream
                 File sd = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+f_url[1]+".zip");//.getExternalStorageDirectory();
+
                 OutputStream output = new FileOutputStream(sd.getPath());
 
                 byte data[] = new byte[1024];
@@ -265,7 +266,6 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                 input.close();
 
                 // call the unzip folder
-
                 ZipArchive zipArchive = new ZipArchive();
                 zipArchive.unzip("/storage/emulated/0/Download"+f_url[1]+".zip","/storage/emulated/0/Download","");
 

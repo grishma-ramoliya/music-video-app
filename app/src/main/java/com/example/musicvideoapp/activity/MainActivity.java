@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 //
 
         initialize();
-//        isStoragePermissionGranted();
+        isStoragePermissionGranted();
         createAppFolders();
             fragmentAdapter=new FragmentAdapter(getSupportFragmentManager());
             viewPager.setAdapter(fragmentAdapter);
@@ -92,29 +92,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
 //  Create Folder
-    private void createAppFolders() {
+
+    private void createAppFolders()
+    {
         File musicVideo=new File(Environment.getExternalStorageDirectory(),"MusicVideo");
-        if (!musicVideo.exists()){
-            musicVideo.mkdirs();
-            if (!musicVideo.exists()&&!musicVideo.isDirectory()){
-                File source_effect=new File(musicVideo.getAbsolutePath(),"source_effect");
-                if (!musicVideo.exists()){
-                    source_effect.mkdirs();
-                }
+        if(!musicVideo.exists() || musicVideo.isFile()){
+            if(musicVideo.isFile()){
+                Toast.makeText(getApplicationContext(), "'MyFolder' exists as file", Toast.LENGTH_LONG).show();
+                return;
             }
-        }else {
-            if (!musicVideo.exists()&&!musicVideo.isDirectory()){
+            try{
+                musicVideo.mkdir();
                 File source_effect=new File(musicVideo.getAbsolutePath()+File.separator+"source_effect");
-                if (!musicVideo.exists()){
-                    source_effect.mkdirs();
-                }
-            }else {
-                Toast.makeText(this, "sfdsfqd", Toast.LENGTH_SHORT).show();
+                source_effect.mkdir();
+
+                Toast.makeText(getApplicationContext(), "Directories created successfully", Toast.LENGTH_SHORT).show();
+            } catch(Exception e){
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
-            Toast.makeText(this, "sdfccsa", Toast.LENGTH_SHORT).show();
+
         }
     }
-
 
 
     //region FOR ADD UI ACTION CALL FOR ENCODING
@@ -131,23 +129,22 @@ public class MainActivity extends AppCompatActivity {
         ivSetting=findViewById(R.id.ivSetting);
     }
 
-//    public  boolean isStoragePermissionGranted() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                    == PackageManager.PERMISSION_GRANTED) {
-//                Log.v("tag","Permission is granted");
-//                return true;
-//            } else {
-//
-//                Log.v("tag","Permission is revoked");
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-//                return false;
-//            }
-//        }
-//        else { //permission is automatically granted on sdk<23 upon installation
-//            Log.v("tag","Permission is granted");
-//            return true;
-//        }
-//    }
+        public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted");
+                return true;
+            } else {
 
+                Log.v("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted");
+            return true;
+        }
+    }
 }
