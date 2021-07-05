@@ -72,8 +72,13 @@ public class MainActivity extends AppCompatActivity {
 //
 
         initialize();
+
+        //Call the StoragePermission
         isStoragePermissionGranted();
+
+        //Call the CreateFolder
         createAppFolders();
+
             fragmentAdapter=new FragmentAdapter(getSupportFragmentManager());
             viewPager.setAdapter(fragmentAdapter);
             tabLayout.setupWithViewPager(viewPager);
@@ -85,10 +90,6 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intentHome);
                 }
             });
-
-//        ZipArchive zipArchive = new ZipArchive();
-//        zipArchive.unzip("/storage/emulated/0/Download/theme65.ip.zip","/storage/emulated/0/Download","");
-
     }
 
 //  Create Folder
@@ -128,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
         ivFavourite=findViewById(R.id.ivFavourite);
         ivSetting=findViewById(R.id.ivSetting);
     }
+
+    //Storage Permission
 
         public  boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
