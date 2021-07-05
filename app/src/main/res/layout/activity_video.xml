@@ -25,11 +25,6 @@
                 android:id="@+id/Video_View"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_300sdp" />
-
-<!--        <ImageView-->
-<!--            android:id="@+id/ivImages"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/_300sdp" />-->
     </FrameLayout>
 
     <LinearLayout

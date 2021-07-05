@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.app.Activity;
@@ -69,14 +68,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-//
+
 
         initialize();
 
-        //Call the StoragePermission
+//Call the StoragePermission
         isStoragePermissionGranted();
 
-        //Call the CreateFolder
+//Call the CreateFolder
         createAppFolders();
 
             fragmentAdapter=new FragmentAdapter(getSupportFragmentManager());
@@ -130,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
         ivSetting=findViewById(R.id.ivSetting);
     }
 
-    //Storage Permission
+//Storage Permission
 
-        public  boolean isStoragePermissionGranted() {
+    public  boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
