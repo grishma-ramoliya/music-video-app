@@ -9,11 +9,13 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,12 +44,21 @@ public class SelectMusicActivity extends AppCompatActivity {
     private MusicFragAdapter musicFragAdapter;
     private ViewPager viewPager;
     private TextView btnLocal , btnFeatured;
+    private ImageView backArrow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_music);
 
         initialize();
+
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentBack = new Intent(SelectMusicActivity.this,VideoSecondActivity.class);
+                startActivity(intentBack);
+            }
+        });
 
         musicFragAdapter=new MusicFragAdapter(getSupportFragmentManager());
         viewPager.setAdapter(musicFragAdapter);
@@ -88,6 +99,7 @@ public class SelectMusicActivity extends AppCompatActivity {
         btnLocal=findViewById(R.id.btnLocal);
         btnFeatured=findViewById(R.id.btnFeatured);
         viewPager=findViewById(R.id.vpMusic);
+        backArrow=findViewById(R.id.backArrow);
     }
 
 

@@ -56,6 +56,7 @@ public class ThemeAdapter extends RecyclerView.Adapter <ThemeAdapter.ViewHolder>
             Glide.with(context).load(ContextCompat.getDrawable(context,R.drawable.ic_heart)).into(viewHolder.ivLike);
         }
         viewHolder.ivLike.setColorFilter(ContextCompat.getColor(context,R.color.red));
+
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

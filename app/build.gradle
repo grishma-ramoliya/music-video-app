@@ -46,8 +46,11 @@ dependencies {
     implementation "androidx.room:room-runtime:2.3.0"
     annotationProcessor "androidx.room:room-compiler:2.3.0"
     androidTestImplementation "androidx.room:room-testing:2.3.0"
-    
+
+    //Gson is a Java library that can be used to convert Java Objects into their JSON representation
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    //retrofit api
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation "com.squareup.okhttp3:okhttp:4.8.0"
