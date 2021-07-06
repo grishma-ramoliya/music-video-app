@@ -161,7 +161,6 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
 
         @Override
         public void onStart() {
-
         }
 
         @Override

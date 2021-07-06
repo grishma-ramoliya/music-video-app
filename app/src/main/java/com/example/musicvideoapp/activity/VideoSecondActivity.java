@@ -85,8 +85,6 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
             i[j]=j;
         }
 
-        VideoSecondActivity.AsyncTaskExample asyncTask=new VideoSecondActivity.AsyncTaskExample();
-        asyncTask.execute("/storage/emulated/0/Download/abhi/theme65/data/sound.aac");
         new CountDownTimer(500,2777){
 
             @Override
@@ -102,6 +100,10 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                 start();
             }
         }.start();
+
+
+        VideoSecondActivity.AsyncTaskExample asyncTask=new VideoSecondActivity.AsyncTaskExample();
+        asyncTask.execute("/storage/emulated/0/Download/abhi/theme65/data/sound.aac");
 
 //        try {
 //            encodedImagesToVideo();
