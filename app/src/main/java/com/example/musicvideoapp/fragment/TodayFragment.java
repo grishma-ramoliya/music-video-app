@@ -242,7 +242,7 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                 InputStream input = new BufferedInputStream(url.openStream(),
                         8192);
                 // Output stream
-                File sd = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+f_url[1]+".zip");//.getExternalStorageDirectory();
+                File sd = new File(Environment.getExternalStorageDirectory()+"/MusicVideo/source_effect/"+f_url[1]+".zip");//.getExternalStorageDirectory();
                 OutputStream output = new FileOutputStream(sd.getPath());
 
                 byte data[] = new byte[1024];
@@ -266,10 +266,10 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                 // call the unzip folder
 
                 ZipArchive zipArchive = new ZipArchive();
-                zipArchive.unzip("/storage/emulated/0/Download"+f_url[1]+".zip","/storage/emulated/0/Download","");
+                zipArchive.unzip("/storage/emulated/0/MusicVideo/source_effect"+f_url[1]+".zip","/storage/emulated/0/MusicVideo/source_effect","");
 
                 Intent intent=new Intent(getActivity(), VideoActivity.class);
-                intent.putExtra("videoPath","/storage/emulated/0/Download"+f_url[1]+"_video_ex"+"/"+"video.mp4");
+                intent.putExtra("videoPath","/storage/emulated/0/MusicVideo/source_effect"+f_url[1]+"_video_ex"+"/"+"video.mp4");
                 intent.putExtra("folder",f_url[1]);
                 startActivity(intent);
                 return "Downloaded";

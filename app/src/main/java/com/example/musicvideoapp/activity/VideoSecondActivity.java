@@ -8,6 +8,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
@@ -64,7 +68,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
     private File imagesToVideoPath;
     private String audioPath;
     private VideoView videoView;
-    private ImageView backArrow,ivImages;
+    private ImageView backArrow,ivImages,ivBackImage;
     private String[] projection = {MediaStore.MediaColumns.DATA};
     private Button btnDownload;
     private AlertDialog progressDialog;
@@ -79,28 +83,29 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
 
         initialize();
 
-        Glide.with(this).load("/storage/emulated/0/Download/abhi/theme65/data/d1.png").into(ivImages);
+        //Glide.with(this).load("/storage/emulated/0/Download/abhi/theme65/data/d1.png").into(ivImages);
+        ivImages.setImageURI(Uri.parse("/storage/emulated/0/Download/abhi/theme65/data/d1.png "));
         int[] i = new int[270];
         for (int j=1;j<270;j++){
             i[j]=j;
         }
-
-        new CountDownTimer(500,2777){
+        new CountDownTimer(2700000,10){
 
             @Override
             public void onTick(long millisUntilFinished) {
-            }
 
-            @Override
-            public void onFinish() {
-                Glide.with(VideoSecondActivity.this).load("/storage/emulated/0/Download/abhi/theme65/data/d"+ i[0] +".png").into(ivImages);
+                //Glide.with(VideoSecondActivity.this).load("/storage/emulated/0/Download/abhi/theme65/data/d"+ i[0] +".png").into(ivImages);
+                ivImages.setImageURI(Uri.parse("/storage/emulated/0/Download/abhi/theme65/data/d"+ i[0] +".png"));
                 int j=i[0]++;
                 if (j==270){
                     i[0] =0;}
-                start();
+
+            }
+            @Override
+            public void onFinish() {
+                  // start();
             }
         }.start();
-
 
         VideoSecondActivity.AsyncTaskExample asyncTask=new VideoSecondActivity.AsyncTaskExample();
         asyncTask.execute("/storage/emulated/0/Download/abhi/theme65/data/sound.aac");
@@ -119,7 +124,13 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                 startActivity(intentMusic);
             }
         });
-        btnDownload.setOnClickListener(this);
+        btnDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentDownload = new Intent(VideoSecondActivity.this,PreviewShareActivity.class);
+                startActivity(intentDownload);
+            }
+        });
 
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,12 +139,14 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
                 startActivity(i);
             }
         });
+
     }
 
     private void initialize() {
         videoView=findViewById(R.id.Video_View);
         backArrow=findViewById(R.id.backArrow);
         ivImages=findViewById(R.id.ivImages);
+        ivBackImage=findViewById(R.id.ivBackImage);
         llAddImage=findViewById(R.id.llAddImage);
         llAddMusic=findViewById(R.id.llAddMusic);
         btnDownload=findViewById(R.id.btnDownload);

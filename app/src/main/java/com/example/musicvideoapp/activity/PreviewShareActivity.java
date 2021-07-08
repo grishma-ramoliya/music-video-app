@@ -2,9 +2,12 @@ package com.example.musicvideoapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -14,6 +17,8 @@ import com.example.musicvideoapp.items.Constant;
 public class PreviewShareActivity extends AppCompatActivity {
     private String downloadVideoPath=null;
     private VideoView Video_Preview;
+    private ImageView backArrow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,10 +30,19 @@ public class PreviewShareActivity extends AppCompatActivity {
         }
         playVideo(downloadVideoPath);
 
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(PreviewShareActivity.this,MainActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     private void initialize() {
         Video_Preview=findViewById(R.id.Video_Preview);
+        backArrow=findViewById(R.id.backArrow);
     }
 
     //region Play video

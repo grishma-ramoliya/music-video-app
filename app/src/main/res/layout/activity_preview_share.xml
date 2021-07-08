@@ -26,28 +26,25 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/_100sdp"
         android:layout_below="@+id/frameLayout"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_100sdp"
-        app:cardCornerRadius="@dimen/_50sdp"
+        app:cardCornerRadius="@dimen/_40sdp"
         android:layout_marginRight="@dimen/_5sdp"
         android:layout_marginLeft="@dimen/_5sdp"
-        app:cardBackgroundColor="#D6D6D3">
-
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        app:cardBackgroundColor="@color/verylightgray">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:id="@+id/llCardid"
+                    android:padding="@dimen/_20sdp"
                     android:weightSum="4">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_250sdp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1"
@@ -62,14 +59,15 @@
                         android:id="@+id/ivFacebook"/>
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/_100sdp"
+                            android:gravity="center"
                             android:layout_height="wrap_content"
                             android:text="FACEBOOK"/>
                     </LinearLayout>
 
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_265sdp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1"
@@ -84,8 +82,9 @@
                             android:id="@+id/ivInstagram"/>
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/_100sdp"
                             android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:text="INSTAGRAM"/>
 
                     </LinearLayout>
@@ -134,7 +133,6 @@
 
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.appcompat.widget.Toolbar>
 
     </androidx.cardview.widget.CardView>
 

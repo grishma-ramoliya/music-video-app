@@ -191,7 +191,24 @@ public class FeaturedFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                /*URL url = new URL(f_url[0]);
+                return "Downloaded";
+
+            } catch (Exception e) {
+                Log.e("Error: ", e.toString());
+                return "Failed";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            //Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+        }
+    }
+    //endregion
+
+       /*URL url = new URL(f_url[0]);
                 URLConnection connection = url.openConnection();
                 connection.connect();
 //
@@ -222,39 +239,5 @@ public class FeaturedFragment extends Fragment {
                 // closing streams
                 output.close();
                 input.close();*/
-                return "Downloaded";
 
-            } catch (Exception e) {
-                Log.e("Error: ", e.toString());
-                return "Failed";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
-        }
-    }
-    //endregion
-
-    private class AsyncTaskExample extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... f_url) {
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
-    }
 }

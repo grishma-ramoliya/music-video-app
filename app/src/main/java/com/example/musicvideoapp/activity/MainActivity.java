@@ -93,26 +93,52 @@ public class MainActivity extends AppCompatActivity {
 
 //  Create Folder
 
+
+
     private void createAppFolders()
     {
-        File musicVideo=new File(Environment.getExternalStorageDirectory(),"MusicVideo");
-        if(!musicVideo.exists() || musicVideo.isFile()){
-            if(musicVideo.isFile()){
-                Toast.makeText(getApplicationContext(), "'MyFolder' exists as file", Toast.LENGTH_LONG).show();
-                return;
-            }
-            try{
-                musicVideo.mkdir();
-                File source_effect=new File(musicVideo.getAbsolutePath()+File.separator+"source_effect");
-                source_effect.mkdir();
+        String root = Environment.getExternalStorageDirectory().toString();
 
-                Toast.makeText(getApplicationContext(), "Directories created successfully", Toast.LENGTH_SHORT).show();
-            } catch(Exception e){
-                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-            }
+        File myDir = new File(root + "/MusicVideo"+"/source_effect");
+        File image_ex=new File(root + "/MusicVideo"+"/image_ex");
+        File music_online=new File(root + "/MusicVideo"+"/music_online");
+        File Music_Magic=new File(root + "/MusicVideo"+"/Music_Magic");
+        File music_trim_temp=new File(root + "/MusicVideo"+"/music_trim_temp");
+        File out_temp_video=new File(root + "/MusicVideo"+"/out_temp_video");
+        File video_ex=new File(root + "/MusicVideo"+"/video_ex");
+
+
+
+        myDir.mkdirs();
+        image_ex.mkdirs();
+        music_online.mkdirs();
+        Music_Magic.mkdirs();
+        music_trim_temp.mkdirs();
+        out_temp_video.mkdirs();
+        video_ex.mkdirs();
+
 
         }
-    }
+
+//
+//        File musicVideo=new File(Environment.getExternalStorageDirectory(),"MusicVideo");
+//        if(!musicVideo.exists() || musicVideo.isFile()){
+//            if(musicVideo.isFile()){
+//                Toast.makeText(getApplicationContext(), "'MyFolder' exists as file", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//            try{
+//                musicVideo.mkdir();
+//                File source_effect=new File(musicVideo.getAbsolutePath()+File.separator+"source_effect");
+//                source_effect.mkdir();
+//
+//                Toast.makeText(getApplicationContext(), "Directories created successfully", Toast.LENGTH_SHORT).show();
+//            } catch(Exception e){
+//                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//
+//        }
+  //  }
 
 
     //region FOR ADD UI ACTION CALL FOR ENCODING
