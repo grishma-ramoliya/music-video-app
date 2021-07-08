@@ -93,9 +93,7 @@ public class VideoActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(VideoActivity.this, VideoSecondActivity.class);
-                new VideoActivity.Download_image_file_from_url().execute("http://108.61.220.32/public_html/android_ads/MAGIC_SLIDESHOW_SOURCE"+folderName+folderName+".ip",folderName+"NEW");
-                startActivity(i);
+                new VideoActivity.Download_image_file_from_url().execute("http://108.61.220.32/public_html/android_ads/MAGIC_SLIDESHOW_SOURCE"+folderName+folderName+".ip",folderName);
 
             }
         });
@@ -147,7 +145,17 @@ public class VideoActivity extends AppCompatActivity {
 
                 // call the unzip folder
                  ZipArchive zipArchive = new ZipArchive();
-                zipArchive.unzip("/storage/emulated/0/Download"+f_url[1]+"NEW.zip","/storage/emulated/0/Download","");
+                zipArchive.unzip("/storage/emulated/0/Download"+f_url[1]+".zip","/storage/emulated/0/Download","");
+
+                //delete the zip
+                File file=new File("/storage/emulated/0/Download"+f_url[1]+".zip");
+                if(file.exists()){
+                    file.delete();
+                }
+                Intent i = new Intent(VideoActivity.this, VideoSecondActivity.class);
+                File file1=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+f_url[1]+"/data");
+                i.putExtra("themeFolderPath",file1.getAbsolutePath().toString());
+                startActivity(i);
 
                 return "Downloaded";
 

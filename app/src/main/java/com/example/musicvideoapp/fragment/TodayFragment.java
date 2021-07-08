@@ -268,6 +268,13 @@ import static com.example.musicvideoapp.items.Constant.STORAGE_REQUEST_CODE;
                 ZipArchive zipArchive = new ZipArchive();
                 zipArchive.unzip("/storage/emulated/0/MusicVideo/source_effect"+f_url[1]+".zip","/storage/emulated/0/MusicVideo/source_effect","");
 
+                //delete the zip
+
+                File file=new File("/storage/emulated/0/MusicVideo/source_effect"+f_url[1]+".zip");
+                if(file.exists()){
+                    file.delete();
+                   // Toast.makeText(getActivity(), "Delete ZIp", Toast.LENGTH_SHORT).show();
+                }
                 Intent intent=new Intent(getActivity(), VideoActivity.class);
                 intent.putExtra("videoPath","/storage/emulated/0/MusicVideo/source_effect"+f_url[1]+"_video_ex"+"/"+"video.mp4");
                 intent.putExtra("folder",f_url[1]);

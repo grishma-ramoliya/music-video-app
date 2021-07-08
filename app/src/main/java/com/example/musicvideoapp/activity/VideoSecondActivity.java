@@ -76,6 +76,8 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
     private String path;
     private ProgressDialog progressBar;
     private LinearLayout llAddImage,llAddMusic;
+    private ArrayList<String> imagesPaths=new ArrayList<>();
+    private String themeFolderPath="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,22 +85,24 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
 
         initialize();
 
-        //Glide.with(this).load("/storage/emulated/0/Download/abhi/theme65/data/d1.png").into(ivImages);
-        ivImages.setImageURI(Uri.parse("/storage/emulated/0/Download/abhi/theme65/data/d1.png "));
-        int[] i = new int[270];
-        for (int j=1;j<270;j++){
-            i[j]=j;
+        File file=new File(themeFolderPath);
+        File[] files=file.listFiles();
+        for (int i=0;i<files.length;i++){
+            if (files[i].getName().endsWith(".jpg") && files[i].getName().endsWith(".png")){
+                imagesPaths.add(files[i].getAbsolutePath());
+            }
         }
+        //Glide.with(this).load("/storage/emulated/0/Download/abhi/theme65/data/d1.png").into(ivImages);
+        ivImages.setImageURI(Uri.parse(imagesPaths.get(0)));
+
         new CountDownTimer(2700000,10){
 
             @Override
             public void onTick(long millisUntilFinished) {
-
-                //Glide.with(VideoSecondActivity.this).load("/storage/emulated/0/Download/abhi/theme65/data/d"+ i[0] +".png").into(ivImages);
-                ivImages.setImageURI(Uri.parse("/storage/emulated/0/Download/abhi/theme65/data/d"+ i[0] +".png"));
-                int j=i[0]++;
-                if (j==270){
-                    i[0] =0;}
+                for(int i=0;i<imagesPaths.size();i++) {
+                    //Glide.with(VideoSecondActivity.this).load("/storage/emulated/0/Download/abhi/theme65/data/d"+ i[0] +".png").into(ivImages);
+                    ivImages.setImageURI(Uri.parse(imagesPaths.get(i)));
+                }
 
             }
             @Override
@@ -151,6 +155,10 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         llAddMusic=findViewById(R.id.llAddMusic);
         btnDownload=findViewById(R.id.btnDownload);
         progressDialog = DialogUtil.createProgressDialog(this, "Encoding video");
+        Bundle extra=getIntent().getExtras();
+        if (extra!=null){
+            themeFolderPath=extra.getString("themeFolderPath");
+        }
 
     }
 
