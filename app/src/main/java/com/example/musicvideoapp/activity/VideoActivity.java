@@ -122,7 +122,7 @@ public class VideoActivity extends AppCompatActivity {
                 InputStream input = new BufferedInputStream(url.openStream(),
                         8192);
                 // Output stream
-                File sd = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+f_url[1]+".zip");//.getExternalStorageDirectory();
+                File sd = new File(Environment.getExternalStorageDirectory()+"/MusicVideo/source_effect/"+f_url[1]+".zip");//.getExternalStorageDirectory();
                 OutputStream output = new FileOutputStream(sd.getPath());
 
                 byte data[] = new byte[1024];
@@ -145,15 +145,15 @@ public class VideoActivity extends AppCompatActivity {
 
                 // call the unzip folder
                  ZipArchive zipArchive = new ZipArchive();
-                zipArchive.unzip("/storage/emulated/0/Download"+f_url[1]+".zip","/storage/emulated/0/Download","");
+                zipArchive.unzip("/storage/emulated/0/MusicVideo/source_effect"+f_url[1]+".zip","/storage/emulated/0/MusicVideo/source_effect","");
 
                 //delete the zip
-                File file=new File("/storage/emulated/0/Download"+f_url[1]+".zip");
+                File file=new File("/storage/emulated/0/MusicVideo/source_effect"+f_url[1]+".zip");
                 if(file.exists()){
                     file.delete();
                 }
                 Intent i = new Intent(VideoActivity.this, VideoSecondActivity.class);
-                File file1=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+f_url[1]+"/data");
+                File file1=new File("/storage/emulated/0/MusicVideo/source_effect"+File.separator+f_url[1]+"/data");
                 i.putExtra("themeFolderPath",file1.getAbsolutePath().toString());
                 startActivity(i);
 

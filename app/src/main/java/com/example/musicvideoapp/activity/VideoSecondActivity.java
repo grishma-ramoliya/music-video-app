@@ -88,9 +88,9 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
         File file=new File(themeFolderPath);
         File[] files=file.listFiles();
         for (int i=0;i<files.length;i++){
-            if (files[i].getName().endsWith(".jpg") && files[i].getName().endsWith(".png")){
+            //if (files[i].getName().endsWith(".jpg") && files[i].getName().endsWith(".png")){
                 imagesPaths.add(files[i].getAbsolutePath());
-            }
+           // }
         }
         //Glide.with(this).load("/storage/emulated/0/Download/abhi/theme65/data/d1.png").into(ivImages);
         ivImages.setImageURI(Uri.parse(imagesPaths.get(0)));
@@ -99,6 +99,7 @@ public class VideoSecondActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTick(long millisUntilFinished) {
+                Log.d(TAG, "onTick: "+millisUntilFinished);
                 for(int i=0;i<imagesPaths.size();i++) {
                     //Glide.with(VideoSecondActivity.this).load("/storage/emulated/0/Download/abhi/theme65/data/d"+ i[0] +".png").into(ivImages);
                     ivImages.setImageURI(Uri.parse(imagesPaths.get(i)));
